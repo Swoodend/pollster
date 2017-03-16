@@ -103,14 +103,13 @@ body {
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  min-height: 700px;
   width: 80%;
   margin: 0 auto;
 }
 
 .info-col {
   min-width: 300px;
-  height: 650px;
+  margin-top: 75px;
   display: flex;
   align-items: center;
   color: deepskyblue;
