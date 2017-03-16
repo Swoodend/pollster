@@ -105,32 +105,32 @@ body {
   flex-wrap: wrap;
   min-height: 700px;
   width: 100%;
-  background-color: salmon;
 }
 
 .info-col {
-  border: 2px solid black;
   min-width: 300px;
   height: 650px;
-  background: lightgreen;
   display: flex;
   align-items: center;
+  color: deepskyblue;
 }
 
 .info-col-contents {
-  margin: 0 auto;
+  text-align: center;
 }
 
-.info-col-contents p {
-  max-width: 180px;
+
+.info-col-contents p{
+  max-width: 300px;
+  font-size: 18px;
+  font-family: 'Asap', Arial;
+  color: deepskyblue;
   text-align: center;
 }
 
 .info-header {
+  font-family: 'Patua One', Arial;
   text-align: center;
   width: 100%;
-}
-
-.icon {
-  margin-left: 29.5%;
+  font-size: 2.5em;
 }

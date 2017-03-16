@@ -7,7 +7,7 @@ class MainInfoDisplay extends Component {
         <div className="info-col">
           <div className="info-col-contents">
             <h1 className="info-header">Customizable</h1>
-            <div className="icon fa fa-cog fa-5x"></div>
+            <div><i className="icon fa fa-cog fa-5x"></i></div>
             <p>and here is some descriptionand here is some descriptio and here is some description and here is some description and here is some description and here is some description</p>
           </div>
         </div>
