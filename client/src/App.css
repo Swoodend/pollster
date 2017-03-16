@@ -121,11 +121,16 @@ body {
   margin: 0 auto;
 }
 
+.info-col-contents p {
+  max-width: 180px;
+  text-align: center;
+}
+
 .info-header {
   text-align: center;
   width: 100%;
 }
 
 .icon {
-  margin-left: 30%;
+  margin-left: 29.5%;
 }
