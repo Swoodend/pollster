@@ -97,3 +97,35 @@ body {
   height: 700px;
   width: 50%;
 }
+
+.info-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 700px;
+  width: 100%;
+  background-color: salmon;
+}
+
+.info-col {
+  border: 2px solid black;
+  min-width: 300px;
+  height: 650px;
+  background: lightgreen;
+  display: flex;
+  align-items: center;
+}
+
+.info-col-contents {
+  margin: 0 auto;
+}
+
+.info-header {
+  text-align: center;
+  width: 100%;
+}
+
+.icon {
+  margin-left: 30%;
+}
