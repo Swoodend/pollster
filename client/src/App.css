@@ -22,6 +22,7 @@ body {
   justify-content: space-between;
   color: white;
   line-height: 50px;
+  z-index: 100;
 }
 
 .nav-title {
@@ -47,5 +48,52 @@ body {
 
 .signup {
   background: #fcb723;
+  width: 50%;
+  overflow: hidden;
+}
+
+.image-area .text-box {
+  position: relative;
+  width: 50%;
+  height: 200px;
+  left: 25%;
+  top: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.text-box .text-area {
+  text-align: center;
+}
+
+.text-area h1 {
+  font-size: 3em;
+  font-family: 'Patua One', Arial;
+}
+
+.text-area p {
+  font-size: 1.5em;
+}
+
+.signup-button {
+  height: 50px;
+  width: 100px;
+  background: deepskyblue;
+  color: white;
+  line-height: 50px;
+  margin: 0 auto;
+  font-family: 'Asap', Arial;
+  font-size: 1.5em;
+}
+
+
+.main-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.main-image {
+  height: 700px;
   width: 50%;
 }
