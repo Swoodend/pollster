@@ -104,7 +104,8 @@ body {
   align-items: center;
   flex-wrap: wrap;
   min-height: 700px;
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .info-col {
