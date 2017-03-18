@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class MainImageDisplay extends Component {
   render(){
@@ -9,9 +10,9 @@ class MainImageDisplay extends Component {
             <h1>Pollster</h1>
             <p>Custom Polls. Live Results</p>
             <div className="signup-button">
-              <a href="/signup" className="div-anchor">
+              <Link to="/signup" className="div-anchor">
                 Sign up
-              </a>
+              </Link>
             </div>
           </div>
         </div>
