@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 class Login extends Component {
   render(){
     let styles = {
       headerStyle: {
         "color":"deepskyblue",
-        "margin-left":"35px"
+        "marginLeft":"35px"
       },
 
       inputStyle: {
         "margin": "0 0 25px 5px",
         "outline": "none",
-        "border-style": "none",
-        "border-bottom": "1px solid black",
-        "padding-left": "5px"
+        "borderStyle": "none",
+        "borderBottom": "1px solid black",
+        "paddingLeft": "5px"
       },
 
       fontStyle: {
-        "font-family": "Asap, Arial"
+        "fontFamily": "Asap, Arial"
       },
 
       labelStyle: {
