@@ -2,15 +2,23 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
+const mongoose = require('mongoose');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+mongoose.connect("mongodb://localhost/pollster");
+
 app.get('/', (req, res) => {
   res.send('hi mom');
+});
+
+app.post('/signup', (req, res) => {
+  console.log('you posted to /signup');
+  res.send('sup');
 });
 
 app.listen(process.env.PORT || 3001, () => {
