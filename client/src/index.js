@@ -4,7 +4,7 @@ import Home from './Home';
 import Navbar from './Navbar';
 import Signup from './Signup';
 import Login from './Login';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 ReactDOM.render((
