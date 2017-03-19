@@ -11,7 +11,7 @@ ReactDOM.render((
   <Router>
     <div>
       <Navbar/>
-      <div style={{"margin-top":"55px", "margin-left": "20px"}}>
+      <div style={{"margin-top":"55px"}}>
         <Route exact path="/" component={Home}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/login" component={Login}/>
