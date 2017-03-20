@@ -18,7 +18,8 @@ app.get('/', (req, res) => {
 
 app.post('/signup', (req, res) => {
   console.log('you posted to /signup');
-  console.log(req.body.email, req.body.password, req.body.confirmPassword);
+  console.log(req.body.email, req.body.username, req.body.password, req.body.confirmPassword);
+  res.send('ok');
 });
 
 app.listen(process.env.PORT || 3001, () => {
