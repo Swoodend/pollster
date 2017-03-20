@@ -9,9 +9,16 @@ class Signup extends Component {
 
   handleSubmit(e){
     e.preventDefault();
-    console.log('you submitted the form');
-    console.log(this.refs.username.value, this.refs.password.value, this.refs.confirmpassword.value);
-    fetch("/signup", {method: "POST"})
+    let reqBody = {
+      email: this.refs.email.value,
+      password: this.refs.password.value,
+      confirmPassword: this.refs.confirmPassword.value
+    }
+    fetch("/signup", {
+      method: "POST",
+      body: JSON.stringify(reqBody),
+      headers: {"Content-Type":"application/json"}
+    })
       .then((res) => {
         if (res.ok){
           console.log(res);
@@ -51,8 +58,8 @@ class Signup extends Component {
           <h1 style={styles.headerStyle}>Signup</h1>
           <form onSubmit={this.handleSubmit} style={styles.fontStyle} className="signup-form">
             <div>
-              <label style={styles.labelStyle}>Username:</label>
-              <input ref="username" style={styles.inputStyle} type="text" required="true"/>
+              <label style={styles.labelStyle}>Email:</label>
+              <input ref="email" style={styles.inputStyle} type="text" required="true"/>
             </div>
             <div>
               <label style={styles.labelStyle}>Password:</label>
@@ -60,7 +67,7 @@ class Signup extends Component {
             </div>
             <div>
               <label style={styles.labelStyle}>Confirm:</label>
-              <input ref="confirmpassword" style={styles.inputStyle} type="password" required="true"/>
+              <input ref="confirmPassword" style={styles.inputStyle} type="password" required="true"/>
             </div>
             <div>
               <input id="signup-submit" type="submit" value="Register"/>
