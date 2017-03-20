@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-mongoose.connect("mongodb://localhost/pollster");
+// mongoose.connect("mongodb://localhost/pollster");
 
 app.get('/', (req, res) => {
   res.send('hi mom');
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 app.post('/signup', (req, res) => {
   console.log('you posted to /signup');
-  res.send('sup');
+  console.log(req.body.email, req.body.password, req.body.confirmPassword);
 });
 
 app.listen(process.env.PORT || 3001, () => {
