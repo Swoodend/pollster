@@ -9,23 +9,34 @@ class Signup extends Component {
 
   handleSubmit(e){
     e.preventDefault();
-    let reqBody = {
-      email: this.refs.email.value,
-      password: this.refs.password.value,
-      confirmPassword: this.refs.confirmPassword.value
-    }
-    fetch("/signup", {
+    let requestConfig = {
       method: "POST",
-      body: JSON.stringify(reqBody),
-      headers: {"Content-Type":"application/json"}
-    })
-      .then((res) => {
-        if (res.ok){
-          console.log(res);
-        } else {
-          throw new Error ('Something went wrong with your fetch');
-        }
-      })
+      body: JSON.stringify({
+        email: this.refs.email.value,
+        username: this.refs.username.value,
+        password: this.refs.password.value,
+        confirmPassword: this.refs.confirmPassword.value
+      }),
+      headers: { "Content-type":"application/json" }
+    }
+    //if password === confirmPassword
+    if (this.refs.password.value === this.refs.confirmPassword.value){
+      fetch("/signup", requestConfig)
+        .then((res) => {
+          if (res.ok){
+            console.log(res);
+            console.log('res worked');
+            //redirect to /users/username/polls
+          }
+        })
+    } else {
+      console.log('passwords did not match');
+      //make this a flash message later
+      this.refs.email.value = '';
+      this.refs.username.value = '';
+      this.refs.password.value = '';
+      this.refs.confirmPassword.value = '';
+    }
   }
 
   render(){
@@ -40,7 +51,8 @@ class Signup extends Component {
         "outline": "none",
         "borderStyle": "none",
         "borderBottom": "1px solid black",
-        "paddingLeft": "5px"
+        "paddingLeft": "5px",
+        "width": "150px"
       },
 
       fontStyle: {
@@ -60,6 +72,10 @@ class Signup extends Component {
             <div>
               <label style={styles.labelStyle}>Email:</label>
               <input ref="email" style={styles.inputStyle} type="text" required="true"/>
+            </div>
+            <div>
+              <label style={styles.labelStyle}>Username:</label>
+              <input ref="username" style={styles.inputStyle} type="text" required="true"/>
             </div>
             <div>
               <label style={styles.labelStyle}>Password:</label>
