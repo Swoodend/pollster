@@ -4,13 +4,15 @@ const app = express();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const User = require('./db/UserModel').User;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// mongoose.connect("mongodb://localhost/pollster");
+mongoose.connect("mongodb://localhost/pollster");
 
 app.get('/', (req, res) => {
   res.send('hi mom');
@@ -19,7 +21,23 @@ app.get('/', (req, res) => {
 app.post('/signup', (req, res) => {
   console.log('you posted to /signup');
   console.log(req.body.email, req.body.username, req.body.password, req.body.confirmPassword);
-  res.send('ok');
+  var hash = bcrypt.hashSync(req.body.password, 10);
+
+  let user = new User ({
+    email: req.body.email,
+    username: req.body.username,
+    password: hash
+  });
+
+  user.save((err) => {
+    if (!err){
+      console.log(bcrypt.compareSync(req.body.password, hash));
+      res.send('ok');
+    } else {
+      console.log('user didnt save');
+    }
+  })
+
   //this rotue will check if the email exits in the databse
   //if not it will create a new entry in the DB email, un, pass, email ver token, verified status
   //then send an verification email to the email provided with a link to localhost/:token
