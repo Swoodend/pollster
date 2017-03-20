@@ -13,7 +13,8 @@ class Login extends Component {
         "outline": "none",
         "borderStyle": "none",
         "borderBottom": "1px solid black",
-        "paddingLeft": "5px"
+        "paddingLeft": "5px",
+        "width": "150px"
       },
 
       fontStyle: {
