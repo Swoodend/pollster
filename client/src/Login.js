@@ -35,8 +35,10 @@ class Login extends Component {
       })
       .then((res) => {
         if (res.type === "OK"){
-          console.log('logged in');
-          //set current user and redirect to dashboard
+          //set token, clear form fields, send back to / (for now, redirect to dashboard once built)
+          localStorage.setItem('jwt', res.token);
+          this.resetFormFields();
+          this.props.history.push('/');
         } else {
           this.setState({
             error: {type: res.type, message: res.message}
