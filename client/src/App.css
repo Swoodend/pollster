@@ -187,3 +187,31 @@ body {
   font-weight: bold;
   color: white;
 }
+
+/* FLASH MESSAGE */
+.flash-container {
+  outline: 1px solid red;
+  background: #ffcccc;
+  color: red;
+  text-align: center;
+  visibility: visible;
+  position: absolute;
+  width: 100%;
+}
+.flash-enter {
+   opacity: 0.01;
+}
+
+.flash-enter.flash-enter-active {
+   opacity: 1;
+   transition: opacity 500ms ease-in;
+}
+
+.flash-leave {
+   opacity: 1;
+}
+
+.flash-leave.flash-leave-active {
+   opacity: 0;
+   transition: opacity 500ms ease-in;
+}
