@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
+import FlashMessage from './FlashMessage';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Login extends Component {
 
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.resetFormFields = this.resetFormFields.bind(this);
+    this.state = {
+      error: null
+    };
+  }
+
+  resetFormFields(){
+    this.refs.username.value = '';
+    this.refs.password.value = '';
   }
 
   handleSubmit(e){
@@ -20,9 +31,23 @@ class Login extends Component {
 
     fetch('/login', requestConfig)
       .then((res) => {
-        if (res.ok){
-          console.log('ajax is working fine');
-          //redirect to /users/username/polls
+        return res.json()
+      })
+      .then((res) => {
+        if (res.type === "OK"){
+          console.log('logged in');
+          //set current user and redirect to dashboard
+        } else {
+          this.setState({
+            error: {type: res.type, message: res.message}
+          }, () => {
+            window.setTimeout(() => {
+              this.setState({
+                error: null
+              });
+            }, 2000)
+          });
+          this.resetFormFields();
         }
       })
   }
@@ -51,24 +76,30 @@ class Login extends Component {
         "width": "100px"
       }
     };
-
+    let error = this.state.error ?
+      <FlashMessage type={this.state.error.type} message={this.state.error.message}/> : null;
     return (
-      <div className="login-container">
-        <div className="login-box">
-          <h1 style={styles.headerStyle}>Login</h1>
-          <form onSubmit={this.handleSubmit} style={styles.fontStyle} className="login-form">
-            <div>
-              <label style={styles.labelStyle}>Username:</label>
-              <input ref="username" style={styles.inputStyle} type="text" required="true"/>
-            </div>
-            <div>
-              <label style={styles.labelStyle}>Password:</label>
-              <input ref="password" style={styles.inputStyle} type="password" required="true"/>
-            </div>
-            <div>
-              <input id="login-submit" type="submit" value="Login"/>
-            </div>
-          </form>
+      <div>
+        <ReactCSSTransitionGroup transitionName={"flash"} transitionEnterTimeout={0} transitionLeaveTimeout={1000}>
+          {error}
+        </ReactCSSTransitionGroup>
+        <div className="login-container">
+          <div className="login-box">
+            <h1 style={styles.headerStyle}>Login</h1>
+            <form onSubmit={this.handleSubmit} style={styles.fontStyle} className="login-form">
+              <div>
+                <label style={styles.labelStyle}>Username:</label>
+                <input ref="username" style={styles.inputStyle} type="text" required="true"/>
+              </div>
+              <div>
+                <label style={styles.labelStyle}>Password:</label>
+                <input ref="password" style={styles.inputStyle} type="password" required="true"/>
+              </div>
+              <div>
+                <input id="login-submit" type="submit" value="Login"/>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );
