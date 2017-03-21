@@ -19,8 +19,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  console.log('you posted to /signup');
-  console.log(req.body.email, req.body.username, req.body.password, req.body.confirmPassword);
   var hash = bcrypt.hashSync(req.body.password, 10);
 
   let user = new User ({
@@ -31,23 +29,35 @@ app.post('/signup', (req, res) => {
 
   user.save((err) => {
     if (!err){
-      console.log(bcrypt.compareSync(req.body.password, hash));
-      res.send('ok');
+      res.json({type: "OK"});
     } else {
-      console.log('user didnt save');
+      if (err.code === 11000){
+        res.json({type: "Error", message:"Email/Username is already in use"});
+      } else {
+        res.json({type: "Error", message:"Something went wrong"})
+      }
     }
-  })
-
-  //this rotue will check if the email exits in the databse
-  //if not it will create a new entry in the DB email, un, pass, email ver token, verified status
-  //then send an verification email to the email provided with a link to localhost/:token
-  //when the user hits THAT route find them and set verified to true
+  });
 });
 
 app.post('/login', (req, res) => {
-  console.log('you posted to /login');
-  console.log(req.body.username, req.body.password);
-  res.send('sup');
+
+  User.findOne({'username': req.body.username}, (err, user) => {
+    if (err) {
+      console.log('something went wrong');
+      res.json({type:"Error", message:"Something went wrong"});
+    }
+
+    if (!err && user){
+      if (bcrypt.compareSync(req.body.password, user.password)){
+        res.json({type: "OK"});
+      } else {
+        res.json({type:"Error", message:"Incorrect password. Please try again"});
+      }
+    } else {
+      res.json({type:"Error", message: "Username does not exist"});
+    }
+  })
   //this route will find the user by email, if the password is correct
   //and verified === true it will send a truthy value the browser
   //react will then redirect to /user/username/polls
