@@ -6,6 +6,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./db/UserModel').User;
+const jwt = require('jsonwebtoken');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -41,7 +42,6 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-
   User.findOne({'username': req.body.username}, (err, user) => {
     if (err) {
       console.log('something went wrong');
@@ -50,7 +50,8 @@ app.post('/login', (req, res) => {
 
     if (!err && user){
       if (bcrypt.compareSync(req.body.password, user.password)){
-        res.json({type: "OK"});
+        let token = jwt.sign({username: req.body.username, loggedIn: true}, 'secret');
+        res.json({type: "OK", token: token});
       } else {
         res.json({type:"Error", message:"Incorrect password. Please try again"});
       }
