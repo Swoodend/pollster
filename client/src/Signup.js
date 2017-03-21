@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
+import FlashMessage from './FlashMessage';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 
 class Signup extends Component {
 
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.clearFormFields = this.clearFormFields.bind(this);
+    this.state = {
+      error: null
+    }
+  }
+
+  clearFormFields(){
+    this.refs.email.value = '';
+    this.refs.username.value = '';
+    this.refs.password.value = '';
+    this.refs.confirmPassword.value = '';
   }
 
   handleSubmit(e){
@@ -23,19 +37,32 @@ class Signup extends Component {
     if (this.refs.password.value === this.refs.confirmPassword.value){
       fetch("/signup", requestConfig)
         .then((res) => {
-          if (res.ok){
-            console.log(res);
-            console.log('res worked');
-            //redirect to /users/username/polls
+            return res.json();
+        }).then((res) => {
+          if (res.type !== "OK"){
+            this.setState({
+              error: {type: res.type, message: res.message}
+            }, () => {
+              window.setTimeout(() => {
+                this.setState({
+                  error: null
+                });
+              }, 2000)
+            });
+            this.clearFormFields();
           }
         })
     } else {
-      console.log('passwords did not match');
-      //make this a flash message later
-      this.refs.email.value = '';
-      this.refs.username.value = '';
-      this.refs.password.value = '';
-      this.refs.confirmPassword.value = '';
+      this.setState({
+        error: {type: "Error", message: "Passwords did not match"}
+      }, () => {
+        window.setTimeout(() => {
+          this.setState({
+            error: null
+          });
+        }, 2000)
+      });
+      this.clearFormFields();
     }
   }
 
@@ -64,31 +91,39 @@ class Signup extends Component {
         "width": "100px"
       }
     }
+
+    let error = this.state.error ?
+      <FlashMessage type={this.state.error.type} message={this.state.error.message}/> : null;
     return (
-      <div className="signup-container">
-        <div className="signup-box">
-          <h1 style={styles.headerStyle}>Signup</h1>
-          <form onSubmit={this.handleSubmit} style={styles.fontStyle} className="signup-form">
-            <div>
-              <label style={styles.labelStyle}>Email:</label>
-              <input ref="email" style={styles.inputStyle} type="text" required="true"/>
-            </div>
-            <div>
-              <label style={styles.labelStyle}>Username:</label>
-              <input ref="username" style={styles.inputStyle} type="text" required="true"/>
-            </div>
-            <div>
-              <label style={styles.labelStyle}>Password:</label>
-              <input ref="password" style={styles.inputStyle} type="password" required="true"/>
-            </div>
-            <div>
-              <label style={styles.labelStyle}>Confirm:</label>
-              <input ref="confirmPassword" style={styles.inputStyle} type="password" required="true"/>
-            </div>
-            <div>
-              <input id="signup-submit" type="submit" value="Register"/>
-            </div>
-          </form>
+      <div>
+        <ReactCSSTransitionGroup transitionName={"flash"} transitionEnterTimeout={0} transitionLeaveTimeout={1000}>
+          {error}
+        </ReactCSSTransitionGroup>
+        <div className="signup-container">
+          <div className="signup-box">
+            <h1 style={styles.headerStyle}>Signup</h1>
+            <form onSubmit={this.handleSubmit} style={styles.fontStyle} className="signup-form">
+              <div>
+                <label style={styles.labelStyle}>Email:</label>
+                <input ref="email" style={styles.inputStyle} type="text" required="true"/>
+              </div>
+              <div>
+                <label style={styles.labelStyle}>Username:</label>
+                <input ref="username" style={styles.inputStyle} type="text" required="true"/>
+              </div>
+              <div>
+                <label style={styles.labelStyle}>Password:</label>
+                <input ref="password" style={styles.inputStyle} type="password" required="true"/>
+              </div>
+              <div>
+                <label style={styles.labelStyle}>Confirm:</label>
+                <input ref="confirmPassword" style={styles.inputStyle} type="password" required="true"/>
+              </div>
+              <div>
+                <input id="signup-submit" type="submit" value="Register"/>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );
