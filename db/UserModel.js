@@ -8,6 +8,25 @@ let userSchema = new Schema ({
   username: {type: String, required: true, unique: true}
 });
 
+//to include charts this should looks liek
+
+/*
+USER
+username: ""
+password: ""
+email: ""
+polls: [
+  {
+    id: ""
+    title: ""
+    options: ["kirk", "picard"] (these are the options you can vote on)
+    votes: [12, 4] (these are the results for each option)
+    voters: [username, anotherusername] (so you can only vote once)
+  }
+]
+
+*/
+
 let User = mongoose.model('User', userSchema);
 
 module.exports = {
