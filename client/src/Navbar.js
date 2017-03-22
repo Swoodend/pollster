@@ -26,7 +26,7 @@ class Navbar extends Component {
       })
   }
   render(){
-    let nav = this.state.loggedIn ? <NavbarLoggedIn/> : <NavbarNotLoggedIn/>
+    let nav = this.state.loggedIn ? <NavbarLoggedIn username={this.state.loggedIn}/> : <NavbarNotLoggedIn/>
     return (
       <div>
         {nav}
