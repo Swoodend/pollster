@@ -15,8 +15,18 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost/pollster");
 
-app.get('/', (req, res) => {
-  res.send('hi mom');
+app.get('/validate/:token', (req, res) => {
+  console.log('hit validate route');
+  let token = req.params.token;
+  console.log('token is', token);
+  jwt.verify(token, 'secret', (err, decoded) => {
+    if(!err && decoded){
+      console.log('token validated sednding', decoded.username);
+      res.json({user: decoded.username});
+    } else {
+      res.json({user: false});
+    }
+  });
 });
 
 app.post('/signup', (req, res) => {
