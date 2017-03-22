@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class NavbarNotLoggedIn extends Component {
+class NavbarLoggedIn extends Component {
+  constructor(props){
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+  handleLogout(){
+    localStorage.removeItem("jwt");
+    window.location.replace('http://localhost:3000/');
+  }
   render(){
     return (
       <div className="navbar">
@@ -10,11 +18,11 @@ class NavbarNotLoggedIn extends Component {
         </div>
         <div className="right">
           <div className="polls"><div className="div-anchor">Polls</div></div>
-          <div className="logout"><div className="div-anchor">Logout</div></div>
+          <div className="logout"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div>
         </div>
       </div>
     );
   }
 }
 
-export default NavbarNotLoggedIn;
+export default NavbarLoggedIn;
