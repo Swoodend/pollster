@@ -38,7 +38,7 @@ class Login extends Component {
           //set token, clear form fields, send back to / (for now, redirect to dashboard once built)
           localStorage.setItem('jwt', res.token);
           this.resetFormFields();
-          this.props.history.push('/');
+          window.location.replace('http://localhost:3000/');
         } else {
           this.setState({
             error: {type: res.type, message: res.message}
