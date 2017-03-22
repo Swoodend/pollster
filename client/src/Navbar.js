@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import NavbarNotLoggedIn from './NavbarNotLoggedIn';
+import NavbarLoggedIn from './NavbarLoggedIn';
 
 class Navbar extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      loggedIn : false
+    }
+  }
+
+  componentDidMount(){
+    console.log('navbar mounting: state is: loggedIn', this.state.loggedIn);
+    let token = localStorage.getItem('jwt');
+    fetch(`/validate/${token}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((token) => {
+        if (token && token.user){
+          this.setState({
+            loggedIn : token.user
+          });
+        }
+      })
+  }
   render(){
+    let nav = this.state.loggedIn ? <NavbarLoggedIn/> : <NavbarNotLoggedIn/>
     return (
-      <div className="navbar">
-        <div className="left">
-          <div className="nav-title"><Link to="/">Pollster</Link></div>
-        </div>
-        <div className="right">
-          <div className="login"><Link to="login" className="div-anchor">Login</Link></div>
-          <div className="signup"><Link to="signup" className="div-anchor">Sign up</Link></div>
-        </div>
+      <div>
+        {nav}
       </div>
     );
   }
