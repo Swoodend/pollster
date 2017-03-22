@@ -21,6 +21,10 @@ body {
   display: block;
 }
 
+.div-anchor:hover {
+  cursor: pointer;
+}
+
 .navbar {
   position: fixed;
   top: 0;
@@ -50,13 +54,13 @@ body {
   font-family: 'Asap', Arial;
 }
 
-.login {
+.login, .polls {
   background: #C1D42F;
   width: 50%;
   min-width: 50px;
 }
 
-.signup {
+.signup, .logout {
   background: #fcb723;
   width: 50%;
   min-width: 100px;
