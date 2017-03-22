@@ -54,6 +54,11 @@ body {
   font-family: 'Asap', Arial;
 }
 
+.username {
+  width: 50%;
+  min-width: 50px;
+}
+
 .login, .polls {
   background: #C1D42F;
   width: 50%;
