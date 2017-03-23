@@ -13,6 +13,26 @@ class Login extends Component {
     };
   }
 
+  componentWillMount(){
+    if (this.props.location.state){
+      console.log(this.props.location.state);
+      let errorType = this.props.location.state.type;
+      let errorMessage = this.props.location.state.message;
+
+      if (errorType && errorMessage){
+        this.setState({
+          error: {type: errorType, message: errorMessage}
+        }, () => {
+          window.setTimeout(() => {
+            this.setState({
+              error: null
+            })
+          }, 2000)
+        });
+      }
+    }
+  }
+
   resetFormFields(){
     this.refs.username.value = '';
     this.refs.password.value = '';
