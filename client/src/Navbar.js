@@ -11,7 +11,6 @@ class Navbar extends Component {
   }
 
   componentDidMount(){
-    console.log('navbar mounting: state is: loggedIn', this.state.loggedIn);
     let token = localStorage.getItem('jwt');
     fetch(`/validate/${token}`)
       .then((res) => {
