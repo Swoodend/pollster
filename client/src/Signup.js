@@ -50,6 +50,9 @@ class Signup extends Component {
               }, 2000)
             });
             this.clearFormFields();
+          } else {
+            localStorage.setItem("jwt", res.token);
+            window.location.replace("http://localhost:3000/dashboard");
           }
         })
     } else {
