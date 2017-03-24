@@ -40,7 +40,8 @@ app.post('/signup', (req, res) => {
 
   user.save((err) => {
     if (!err){
-      res.json({type: "OK"});
+      let token = jwt.sign({username: req.body.username, loggedIn: true}, 'secret');
+      res.json({type: "OK", token: token});
     } else {
       if (err.code === 11000){
         res.json({type: "Error", message:"Email/Username is already in use"});
