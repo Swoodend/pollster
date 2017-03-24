@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import DashboardNoPolls from './DashboardNoPolls';
 
 class Dashboard extends Component {
 
@@ -9,7 +10,7 @@ class Dashboard extends Component {
 
   render(){
     let page = this.verifyLoggedIn() ?
-      <h1>Welcome to dashboard</h1> :
+      <DashboardNoPolls/> :
       <Redirect
         to={{pathname: "/login",
         state: {type: "Warning", message:"Log in before viewing dashboard"}}}
