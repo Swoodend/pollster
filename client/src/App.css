@@ -244,3 +244,40 @@ body {
    opacity: 0;
    transition: opacity 500ms ease-in;
 }
+
+/* DASHBOARD NOT LOGGED IN */
+
+.dash-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+}
+
+.dash-content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 320px;
+  width: 320px;
+  /*background: salmon;*/
+}
+
+.dash-container .action-container {
+  display: flex;
+  justify-content: space-around;
+  height: 10%;
+  width: 100%;
+  /*background: yellow;*/
+}
+
+.new-poll, .random-poll {
+  height: 100%;
+  width: 70px;
+  color: white;
+  background: deepskyblue;
+  font-family: "Asap", Arial;
+  line-height: 30px;
+  text-align: center;
+  padding: 5px;
+}
