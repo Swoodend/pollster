@@ -10,6 +10,27 @@ class NewPollForm extends Component {
   handleSubmit(e){
     e.preventDefault();
     console.log('form submitted');
+    let token = localStorage.getItem('jwt');
+    let title = this.refs.title.value;
+    let options = this.refs.options.value.split(' ');
+    let reqConfig = {
+      method: "POST",
+      body: JSON.stringify({
+        token,
+        title,
+        options
+      }),
+      headers: { "Content-type" : "application/json" }
+    };
+
+    fetch('/polls/new', reqConfig)
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res.status);
+      })
+
     //send the jwt
     //get usersname on backend with the jwt
     //save the chart title to db to that users polls
