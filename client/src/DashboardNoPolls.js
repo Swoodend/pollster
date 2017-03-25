@@ -31,7 +31,7 @@ class DashboardNoPolls extends Component {
     return (
       <div className="dash-container">
         <div className="dash-content">
-          <h1 style={{"text-align":"center"}}>{this.state.currentUser}, welcome to your dashboard.
+          <h1 style={{"textAlign":"center"}}>{this.state.currentUser}, welcome to your dashboard.
             You have no polls yet.
           </h1>
           <div className="action-container">
