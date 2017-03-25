@@ -28,7 +28,9 @@ class NewPollForm extends Component {
         return res.json();
       })
       .then((res) => {
-        console.log(res.status);
+        if (res.status === "OK"){
+          window.location.replace(`http://localhost:3000/polls/${res.pollId}`);
+        }
       })
 
     //send the jwt
