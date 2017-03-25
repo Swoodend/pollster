@@ -56,7 +56,7 @@ class NewPollForm extends Component {
               />
             </div>
             <div>
-              <input id="signup-submit" type="submit" value="Register"/>
+              <input id="signup-submit" type="submit" value="Create"/>
             </div>
           </form>
         </div>
