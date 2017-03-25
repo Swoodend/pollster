@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import NewPollForm from './NewPollForm';
 
 class NewPoll extends Component {
@@ -19,7 +20,11 @@ class NewPoll extends Component {
   }
 
   render(){
-    let content = this.state.loggedIn ? <NewPollForm/> : <h1>GottaLogIn</h1>
+    let content = this.state.loggedIn ? <NewPollForm/> :
+    <Redirect
+      to={{pathname: "/login",
+      state: {type: "Warning", message:"Log in to create new polls"}}}
+    />
     return (
       <div>
         {content}
