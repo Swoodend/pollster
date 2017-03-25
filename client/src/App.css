@@ -271,7 +271,7 @@ body {
   /*background: yellow;*/
 }
 
-.new-poll, .random-poll {
+.new-poll, .random-poll { /*these are buttons*/
   height: 100%;
   width: 70px;
   color: white;
@@ -280,4 +280,21 @@ body {
   line-height: 30px;
   text-align: center;
   padding: 5px;
+}
+
+/* new poll page */
+.new-poll-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 75px);
+}
+
+.new-poll-box {
+  width: 25%;
+  min-width: 315px;
+  min-height: 350px;
+  height: 50%;
+  border: 2px solid black;
+  border-radius: 5px;
 }
