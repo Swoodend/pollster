@@ -35,8 +35,8 @@ class DashboardNoPolls extends Component {
             You have no polls yet.
           </h1>
           <div className="action-container">
-            <div className="new-poll"><Link to="/new">New Poll</Link></div>
-            <div style={{"background": "#C1D42F"}} className="random-poll">
+            <div className="new-poll div-anchor"><Link to="/new">New Poll</Link></div>
+            <div style={{"background": "#C1D42F"}} className="random-poll div-anchor">
               <Link to="#">Random</Link>
             </div>
           </div>
