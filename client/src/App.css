@@ -292,9 +292,9 @@ body {
 
 .new-poll-box {
   width: 25%;
+  height: 40%;
   min-width: 315px;
-  min-height: 350px;
-  height: 50%;
+  min-height: 300px;
   border: 2px solid black;
   border-radius: 5px;
 }
