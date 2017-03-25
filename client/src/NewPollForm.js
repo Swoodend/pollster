@@ -11,8 +11,10 @@ class NewPollForm extends Component {
     e.preventDefault();
     console.log('form submitted');
     //send the jwt
-    //save the chart title to db
+    //get usersname on backend with the jwt
+    //save the chart title to db to that users polls
     //save the options to db, needs to be an array like values: [spock, kirk]
+    //then redirect to /polls/view/:pollid
   }
 
   render(){
