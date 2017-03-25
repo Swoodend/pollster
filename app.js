@@ -15,6 +15,41 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost/pollster");
 
+app.post('/polls/new', (req, res) => {
+  //req.body.token
+  //req.body.title
+  //req.body.options
+  //decoded.username
+  jwt.verify(req.body.token, 'secret', (err, decoded) => {
+    User.findOne({username: decoded.username}, (err, user) => {
+      if (!err){
+        //for every option, ie kirk or picard, the default num votes is 0
+        let defaultVotes = req.body.options.map((option) => {
+          return 0;
+        });
+
+        let pollInfo = {
+          id: Math.random().toString(36).slice(2),
+          author: decoded.username,
+          title: req.body.title,
+          options: req.body.options,
+          votes: defaultVotes
+        };
+        user.polls.push(pollInfo);
+        user.save((err) => {
+          if (err){
+            console.log('ERROR SAVING THE USERS POLL DATA');
+          }
+        })
+      } else {
+        console.log('couldnt find that user');
+      }
+    })
+  });
+
+  res.json({status: "OK"});
+})
+
 app.get('/validate/:token', (req, res) => {
   console.log('hit validate route');
   let token = req.params.token;
