@@ -39,6 +39,11 @@ app.post('/polls/new', (req, res) => {
         user.save((err) => {
           if (err){
             console.log('ERROR SAVING THE USERS POLL DATA');
+          } else {
+            res.json({
+              status: "OK",
+              pollId: pollInfo.id
+            });
           }
         })
       } else {
@@ -46,8 +51,6 @@ app.post('/polls/new', (req, res) => {
       }
     })
   });
-
-  res.json({status: "OK"});
 })
 
 app.get('/validate/:token', (req, res) => {
