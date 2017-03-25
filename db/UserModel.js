@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 let userSchema = new Schema ({
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  username: {type: String, required: true, unique: true}
+  username: {type: String, required: true, unique: true},
+  polls: []
 });
 
 //to include charts this should looks liek
