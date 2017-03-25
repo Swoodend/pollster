@@ -10,7 +10,7 @@ class Navbar extends Component {
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     let token = localStorage.getItem('jwt');
     fetch(`/validate/${token}`)
       .then((res) => {
