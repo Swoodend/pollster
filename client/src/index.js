@@ -6,6 +6,7 @@ import Signup from './Signup';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import NewPoll from './NewPoll';
+import ViewPoll from './ViewPoll';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
@@ -19,6 +20,7 @@ ReactDOM.render((
         <Route path="/login" component={Login}/>
         <Route path="/dashboard" component={Dashboard}/>
         <Route path="/new" component={NewPoll}/>
+        <Route path="/polls/:pollId" component={ViewPoll}/>
       </div>
     </div>
   </Router>),
