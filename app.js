@@ -15,11 +15,10 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost/pollster");
 
+
+
 app.post('/polls/new', (req, res) => {
-  //req.body.token
-  //req.body.title
-  //req.body.options
-  //decoded.username
+
   jwt.verify(req.body.token, 'secret', (err, decoded) => {
     User.findOne({username: decoded.username}, (err, user) => {
       if (!err){
@@ -56,15 +55,18 @@ app.post('/polls/new', (req, res) => {
 app.get('/validate/:token', (req, res) => {
   console.log('hit validate route');
   let token = req.params.token;
-  console.log('token is', token);
-  jwt.verify(token, 'secret', (err, decoded) => {
-    if(!err && decoded){
-      console.log('token validated sednding', decoded.username);
-      res.json({user: decoded.username});
-    } else {
-      res.json({user: false});
-    }
-  });
+  if (token){
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if(!err && decoded){
+        console.log('token validated sednding', decoded.username);
+        res.json({user: decoded.username});
+      } else {
+        res.json({user: false});
+      }
+    });
+  } else {
+    res.json({user: false});
+  }
 });
 
 app.post('/signup', (req, res) => {
@@ -115,6 +117,37 @@ app.post('/login', (req, res) => {
   //then react will display a flash message
   //if the email is not verified it will display a flash message
 })
+
+app.get('/polls/:pollId', (req, res) => {
+  console.log(`you hit /polls/${req.params.pollId}`);
+  User.aggregate(
+    [
+      {$match: {"polls.id": req.params.pollId}},
+      {$unwind: "$polls"},
+      {$match: {"polls.id": req.params.pollId}}
+    ],
+    function(err, results) {
+      if (err){
+        console.log(err);
+      } else {
+        let pollData = results[0].polls;
+        let author = pollData.author;
+        let title = pollData.title;
+        let options = pollData.options;
+        let votes = pollData.votes;
+        res.json({
+          status: "OK",
+          pollData: {
+            author,
+            title,
+            options,
+            votes
+          }
+        });
+      }
+    }
+  );
+});
 
 app.listen(process.env.PORT || 3001, () => {
   let port = process.env.PORT || 3001;
