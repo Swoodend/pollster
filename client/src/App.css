@@ -298,3 +298,11 @@ body {
   border: 2px solid black;
   border-radius: 5px;
 }
+
+/* view poll page */
+
+.canvas-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
