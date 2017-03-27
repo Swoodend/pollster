@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
+import PollVotingForm from './PollVotingForm';
 
 class ViewPoll extends Component {
 
@@ -69,12 +70,15 @@ class ViewPoll extends Component {
   }
 
   render(){
+    let votingOptions = this.state.pollOptions ?
+      <PollVotingForm options={this.state.pollOptions} /> : null;
     return (
       <div>
         <h1 style={{"marginTop":"100px", "textAlign":"center"}}>{this.state.pollTitle}</h1>
         <div className="canvas-container">
           <canvas id="chart"></canvas>
         </div>
+        {votingOptions}
       </div>
     );
   }
