@@ -1,21 +1,40 @@
 import React, { Component } from 'react';
 
 class PollVotingForm extends Component{
+  constructor(props){
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      voteValue: ''
+    }
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    console.log('you submitted the form');
+    this.props.updateChart(this.state.voteValue);
+  }
+
+  handleChange(e){
+    this.setState({
+      voteValue: e.target.value
+    });
+  }
 
   render(){
-    console.log('in pvf render with', this.props.options);
     let options = this.props.options.map((option, i) => {
       return (
-        <div key={i}>
+        <div onChange={this.handleChange} key={i}>
           <label key={i+1}>{option}</label>
           <input key={i+2} value={i} type="radio" name="option"/>
         </div>
       );
     });
-    console.log('options is now', options);
+
     return (
       <div className="voting-form-container">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           {options}
           <input id="vote-button" type="submit" value="VOTE!"/>
         </form>
