@@ -57,6 +57,7 @@ class Login extends Component {
         if (res.type === "OK"){
           //set token, clear form fields, send back to / (for now, redirect to dashboard once built)
           localStorage.setItem('jwt', res.token);
+          localStorage.setItem('currentUser', res.currentUser);
           this.resetFormFields();
           window.location.replace('http://localhost:3000/dashboard');
         } else {
