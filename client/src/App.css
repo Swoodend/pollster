@@ -306,5 +306,22 @@ body {
   align-items: center;
   justify-content: center;
   width: calc(100vw - 5%);
+  min-height: 500px;
   margin: 0 auto;
+}
+
+.voting-form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.voting-form-container form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#vote-button {
+  display: block;
+  width: 40%;
 }
