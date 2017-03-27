@@ -305,4 +305,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: calc(100vw - 5%);
+  margin: 0 auto;
 }
