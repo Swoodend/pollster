@@ -52,6 +52,7 @@ class Signup extends Component {
             this.clearFormFields();
           } else {
             localStorage.setItem("jwt", res.token);
+            localStorage.setItem("currentUser", this.refs.username.value);
             window.location.replace("http://localhost:3000/dashboard");
           }
         })
