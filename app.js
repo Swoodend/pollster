@@ -15,7 +15,17 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost/pollster");
 
-
+app.get("/:user/polls", (req, res) => {
+  let user = req.params.user;
+  User.findOne({username: user}, (err, doc) => {
+    if (err){
+      console.log('err with /:user/polls query');
+    } else {
+      res.json({status: "OK", polls: doc.polls})
+      console.log(doc);
+    }
+  })
+})
 
 app.post('/polls/new', (req, res) => {
 
@@ -102,7 +112,7 @@ app.post('/login', (req, res) => {
     if (!err && user){
       if (bcrypt.compareSync(req.body.password, user.password)){
         let token = jwt.sign({username: req.body.username, loggedIn: true}, 'secret');
-        res.json({type: "OK", token: token});
+        res.json({type: "OK", token: token, currentUser: req.body.username});
       } else {
         res.json({type:"Error", message:"Incorrect password. Please try again"});
       }
