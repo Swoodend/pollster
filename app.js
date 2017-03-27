@@ -21,8 +21,9 @@ app.get("/:user/polls", (req, res) => {
     if (err){
       console.log('err with /:user/polls query');
     } else {
-      res.json({status: "OK", polls: doc.polls})
       console.log(doc);
+      res.json({status: "OK", polls: doc.polls})
+
     }
   })
 })
@@ -85,7 +86,8 @@ app.post('/signup', (req, res) => {
   let user = new User ({
     email: req.body.email,
     username: req.body.username,
-    password: hash
+    password: hash,
+    polls: []
   });
 
   user.save((err) => {
