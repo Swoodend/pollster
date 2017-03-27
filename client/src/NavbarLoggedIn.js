@@ -8,6 +8,7 @@ class NavbarLoggedIn extends Component {
   }
   handleLogout(){
     localStorage.removeItem("jwt");
+    localStorage.removeItem("currentUser");
     window.location.replace('http://localhost:3000/login');
   }
   render(){
@@ -18,7 +19,7 @@ class NavbarLoggedIn extends Component {
         </div>
         <div className="right">
           <div className="username">{this.props.username}</div>
-          <div className="polls"><div className="div-anchor">Polls</div></div>
+          <div className="polls"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div>
           <div className="logout"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div>
         </div>
       </div>
