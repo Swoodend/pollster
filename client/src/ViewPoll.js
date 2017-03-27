@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Chart from 'chart.js';
 
 class ViewPoll extends Component {
 
@@ -21,12 +22,44 @@ class ViewPoll extends Component {
       })
       .then((res) => {
         if (res.status === "OK"){
-          console.log(
-            res.pollData.title,
-            res.pollData.author,
-            res.pollData.options,
-            res.pollData.votes
-          )
+          this.setState({
+            pollTitle: res.pollData.title,
+            pollAuthor: res.pollData.author,
+            pollOptions: res.pollData.options,
+            pollVotes: res.pollData.votes
+          }, () => {
+            let ctx = document.getElementById('chart').getContext('2d');
+            let poll = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: this.state.pollOptions,
+                datasets: [{
+                  data: this.state.pollVotes,
+                  backgroundColor: [
+                    'deepskyblue',
+                    '#FCB723'
+                  ],
+                  borderColor: [
+                    'black',
+                    'black'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                legend: {
+                  display: false
+                },
+                scales: {
+                  yAxes: [{
+                    ticks: {
+                      beginAtZero: true
+                    }
+                  }]
+                }
+              }
+            });
+          });
         } else {
           console.log('something went wrong');
         }
@@ -36,7 +69,7 @@ class ViewPoll extends Component {
   render(){
     return (
       <div>
-        <h1 style={{"marginTop":"100px", "textAlign":"center"}}>Welcome to the ViewPoll page</h1>
+        <h1 style={{"marginTop":"100px", "textAlign":"center"}}>{this.state.pollTitle}</h1>
         <div className="canvas-container">
           <canvas id="chart"></canvas>
         </div>
