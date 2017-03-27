@@ -4,34 +4,12 @@ import { Link } from 'react-router-dom';
 
 class DashboardNoPolls extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      currentUser: ''
-    }
-  }
-
-  componentWillMount(){
-    let token = localStorage.getItem('jwt');
-    console.log(token);
-    fetch(`/validate/${token}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((userObj) => {
-        //userObj --- {user: "swood"}
-        this.setState({
-          currentUser: userObj.user
-        });
-      })
-  }
-
-
   render(){
+    let currentUser = localStorage.getItem("currentUser");
     return (
       <div className="dash-container">
         <div className="dash-content">
-          <h1 style={{"textAlign":"center"}}>{this.state.currentUser}, welcome to your dashboard.
+          <h1 style={{"textAlign":"center"}}>{currentUser}, welcome to your dashboard.
             You have no polls yet.
           </h1>
           <div className="action-container">
