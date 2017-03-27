@@ -47,6 +47,8 @@ class ViewPoll extends Component {
                 }]
               },
               options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 legend: {
                   display: false
                 },
