@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
 import PollVotingForm from './PollVotingForm';
-
+let poll;
 class ViewPoll extends Component {
 
   constructor(props){
     super(props);
+    this.updateChart = this.updateChart.bind(this);
     this.state = {
       pollTitle: '',
       pollAuthor: '',
@@ -16,7 +17,6 @@ class ViewPoll extends Component {
 
   componentWillMount(){
     let pollId = this.props.match.params.pollId;
-    console.log(pollId);
     fetch(`/polls/${pollId}`)
       .then((res) => {
         return res.json();
@@ -30,7 +30,7 @@ class ViewPoll extends Component {
             pollVotes: res.pollData.votes
           }, () => {
             let ctx = document.getElementById('chart').getContext('2d');
-            let poll = new Chart(ctx, {
+            poll = new Chart(ctx, {
               type: 'bar',
               data: {
                 labels: this.state.pollOptions,
@@ -69,9 +69,27 @@ class ViewPoll extends Component {
       })
   }
 
+  updateChart(index){
+    console.log('you called update chart with index', index);
+    let updatedVotes = this.state.pollVotes.slice();
+    updatedVotes[index] += 1;
+    this.setState({
+      pollVotes: updatedVotes
+    }, () => {
+      console.log('chart state is now', this.state);
+      console.log('poll is', poll);
+      //write the new state to the database
+      poll.data.datasets[0].data = this.state.pollVotes;
+      poll.update();
+    });
+  }
+
   render(){
     let votingOptions = this.state.pollOptions ?
-      <PollVotingForm options={this.state.pollOptions} /> : null;
+      <PollVotingForm
+        updateChart={this.updateChart}
+        options={this.state.pollOptions}
+      /> : null;
     return (
       <div>
         <h1 style={{"marginTop":"100px", "textAlign":"center"}}>{this.state.pollTitle}</h1>
