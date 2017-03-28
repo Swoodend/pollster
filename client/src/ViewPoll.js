@@ -64,7 +64,7 @@ class ViewPoll extends Component {
             });
           });
         } else {
-          console.log('something went wrong');
+          console.log('unable to create poll');
         }
       })
   }
@@ -73,15 +73,37 @@ class ViewPoll extends Component {
     console.log('you called update chart with index', index);
     let updatedVotes = this.state.pollVotes.slice();
     updatedVotes[index] += 1;
-    this.setState({
-      pollVotes: updatedVotes
-    }, () => {
-      console.log('chart state is now', this.state);
-      console.log('poll is', poll);
-      //write the new state to the database
-      poll.data.datasets[0].data = this.state.pollVotes;
-      poll.update();
-    });
+    //save to db
+    let pollId = this.props.match.params.pollId;
+    let requestConfig = {
+      method: "POST",
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify({
+        newVoteState: updatedVotes
+      })
+    };
+
+    console.log('pollid', pollId);
+    fetch(`/polls/update/${pollId}`, requestConfig)
+      .then((res) => {
+        return res.json();
+      })
+      .then ((res) => {
+        if (res.status === "OK"){
+          console.log('res completed successfully');
+          this.setState({
+            pollVotes: updatedVotes
+          }, () => {
+            console.log('chart state is now', this.state);
+            console.log('poll is', poll);
+            poll.data.datasets[0].data = this.state.pollVotes;
+            poll.update();
+          });
+        } else if (res.status === "no poll found"){
+          console.log('didnt find a poll');
+        }
+      })
+
   }
 
   render(){
@@ -89,7 +111,7 @@ class ViewPoll extends Component {
       <PollVotingForm
         updateChart={this.updateChart}
         options={this.state.pollOptions}
-      /> : null;
+      /> : <h1 style={{"position":"absolute", "top": "35px"}}>No poll found</h1>;
     return (
       <div>
         <h1 style={{"marginTop":"100px", "textAlign":"center"}}>{this.state.pollTitle}</h1>
