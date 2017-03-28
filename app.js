@@ -15,6 +15,30 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost/pollster");
 
+app.post('/polls/update/:pollId', (req, res) => {
+  console.log('you hit /polls/update/:pollId with', req.params.pollId);
+  console.log('new vote state', req.body.newVoteState);
+  //polls: [{id: e5xbyw5zz2w97ldi}, {}]
+  User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user) => {
+    if (!err){
+      console.log('found the user the votes are currently', user.polls[0].votes)
+      user.polls[0].votes = req.body.newVoteState
+      user.markModified("polls");
+      user.save((err) => {
+        if(err){
+          console.log(err);
+        } else {
+          console.log('you saved');
+        }
+      });
+      console.log('saved votes are now', user.polls[0].votes);
+    } else {
+      console.log(err);
+    }
+  });
+  res.json({status: "OK"});
+});
+
 app.get("/:user/polls", (req, res) => {
   let user = req.params.user;
   User.findOne({username: user}, (err, doc) => {
@@ -61,7 +85,7 @@ app.post('/polls/new', (req, res) => {
       }
     })
   });
-})
+});
 
 app.get('/validate/:token', (req, res) => {
   console.log('hit validate route');
@@ -142,20 +166,29 @@ app.get('/polls/:pollId', (req, res) => {
       if (err){
         console.log(err);
       } else {
-        let pollData = results[0].polls;
-        let author = pollData.author;
-        let title = pollData.title;
-        let options = pollData.options;
-        let votes = pollData.votes;
-        res.json({
-          status: "OK",
-          pollData: {
-            author,
-            title,
-            options,
-            votes
-          }
-        });
+        console.log('in /polls/pollid');
+        console.log('results are', results);
+        if (results.length > 0){
+          let pollData = results[0].polls;
+          let author = pollData.author;
+          let title = pollData.title;
+          let options = pollData.options;
+          let votes = pollData.votes;
+
+          console.log(author, title, options, votes);
+          res.json({
+            status: "OK",
+            pollData: {
+              author,
+              title,
+              options,
+              votes
+            }
+          });
+        } else {
+          res.json({status: "no poll found"})
+        }
+
       }
     }
   );
