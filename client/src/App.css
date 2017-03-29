@@ -315,13 +315,52 @@ body {
   justify-content: center;
 }
 
-.voting-form-container form {
+/*.voting-form-container form {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-}
+}*/
 
 #vote-button {
   display: block;
   width: 40%;
+  border: none;
+  background: #C1D42F;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: 'Asap', Arial;
+  height: 35px;
+  margin: 15px auto;
+}
+
+#vote-button:hover {
+  cursor: pointer;
+}
+
+[type="radio"] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px; margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+[type="radio"] + span::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.25em;
+  border: 0.125em solid #fff;
+  margin: 0 15px 0 15px;
+  box-shadow: 0 0 0 0.15em #000;
+  transition: 0.5s ease all;
+}
+
+[type="radio"]:checked + span::before {
+  background: salmon;
+  box-shadow: 0 0 0 0.25em #000;
 }
