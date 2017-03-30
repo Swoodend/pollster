@@ -74,7 +74,11 @@ class ViewPoll extends Component {
   }
 
   updateChart(index){
-    let alreadyVoted = localStorage.getItem('alreadyVoted');
+    console.log(localStorage.getItem("votedOn"));
+    let votedOn = JSON.parse(JSON.stringify(localStorage.getItem("votedOn"))) || [];
+    let alreadyVoted = votedOn.indexOf(this.props.match.params.pollId) > -1 ? true : false;
+    let anonymousUser = !localStorage.getItem("currentUser");
+    console.log('anonymousUser', anonymousUser)
     if (!alreadyVoted){
       let updatedVotes = this.state.pollVotes.slice();
       updatedVotes[index] += 1;
@@ -84,7 +88,9 @@ class ViewPoll extends Component {
         method: "POST",
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify({
-          newVoteState: updatedVotes
+          newVoteState: updatedVotes,
+          isAnon: anonymousUser,
+          currentUser: localStorage.getItem("currentUser")
         })
       };
 
@@ -103,7 +109,6 @@ class ViewPoll extends Component {
               console.log('poll is', poll);
               poll.data.datasets[0].data = this.state.pollVotes;
               poll.update();
-              // localStorage.setItem('alreadyVoted', 'true'); this needs to be an array of poll ids
             });
           } else if (res.status === "no poll found"){
             console.log('didnt find a poll');
@@ -119,6 +124,25 @@ class ViewPoll extends Component {
                 })
               }, 2000)
             });
+          } else if (res.status === "anon vote") {
+              console.log('res completed successfully');
+              this.setState({
+                pollVotes: updatedVotes
+              }, () => {
+                console.log('chart state is now', this.state);
+                console.log('poll is', poll);
+                if (localStorage.getItem("votedOn")){
+                  let arr = JSON.parse(localStorage.getItem("votedOn"));
+                  arr.push(this.props.match.params.pollId);
+                  localStorage.setItem("votedOn", arr);
+                } else {
+                  let arr = this.props.match.params.pollId.split();
+                  arr = JSON.stringify(arr);
+                  localStorage.setItem("votedOn", arr);
+                }
+                poll.data.datasets[0].data = this.state.pollVotes;
+                poll.update();
+              });
           }
         })
     } else {
