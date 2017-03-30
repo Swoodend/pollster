@@ -9,6 +9,7 @@ class NavbarLoggedIn extends Component {
   handleLogout(){
     localStorage.removeItem("jwt");
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("alreadyVoted");
     window.location.replace('http://localhost:3000/login');
   }
   render(){
