@@ -324,7 +324,7 @@ body {
 
 #vote-button {
   display: block;
-  width: 40%;
+  width: 100%;
   border: none;
   background: #C1D42F;
   color: white;
