@@ -20,10 +20,13 @@ app.post('/polls/update/:pollId', (req, res) => {
   console.log('new vote state', req.body.newVoteState);
   //polls: [{id: e5xbyw5zz2w97ldi}, {}]
   User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user) => {
-    if (!err){
+    let alreadyVoted = user.votedOn.indexOf(req.params.pollId) > -1;
+    if (!alreadyVoted){
       console.log('found the user the votes are currently', user.polls[0].votes)
       user.polls[0].votes = req.body.newVoteState
+      user.votedOn.push(req.params.pollId);
       user.markModified("polls");
+      user.markModified('votedOn');
       user.save((err) => {
         if(err){
           console.log(err);
@@ -32,12 +35,13 @@ app.post('/polls/update/:pollId', (req, res) => {
         }
       });
       console.log('saved votes are now', user.polls[0].votes);
+      res.json({status: "OK"});
     } else {
-      console.log(err);
+      res.json({status: "already voted"});
     }
   });
-  res.json({status: "OK"});
 });
+
 
 app.get("/:user/polls", (req, res) => {
   let user = req.params.user;
