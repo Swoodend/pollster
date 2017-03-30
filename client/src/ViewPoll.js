@@ -103,10 +103,22 @@ class ViewPoll extends Component {
               console.log('poll is', poll);
               poll.data.datasets[0].data = this.state.pollVotes;
               poll.update();
-              localStorage.setItem('alreadyVoted', 'true');
+              // localStorage.setItem('alreadyVoted', 'true'); this needs to be an array of poll ids
             });
           } else if (res.status === "no poll found"){
             console.log('didnt find a poll');
+          } else if (res.status === "already voted"){
+            let errorType = 'Already Voted';
+            let errorMessage = 'Sorry, but you have already voted on this poll. You cannot vote again.';
+            this.setState({
+              error: {type: errorType, message: errorMessage}
+            }, () => {
+              window.setTimeout(() => {
+                this.setState({
+                  error: null
+                })
+              }, 2000)
+            });
           }
         })
     } else {
