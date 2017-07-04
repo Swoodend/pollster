@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from 'chart.js';
+  import Chart from 'chart.js';
 import PollVotingForm from './PollVotingForm';
 let poll;
 class ViewPoll extends Component {
