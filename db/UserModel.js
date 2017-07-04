@@ -6,7 +6,8 @@ let userSchema = new Schema ({
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   username: {type: String, required: true, unique: true},
-  polls: {type: Array, default: []}
+  polls: {type: Array, default: []},
+  votedOn: {type: Array, default: []}
 });
 
 //to include charts this should looks liek

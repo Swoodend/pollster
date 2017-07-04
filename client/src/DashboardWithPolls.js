@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import Chart from 'chart.js';
 
 class DashboardWithPolls extends Component {
@@ -67,13 +68,50 @@ class DashboardWithPolls extends Component {
     })
   }
 
+=======
+import DashboardPollDisplay from './DashboardPollDisplay';
+
+class DashboardWithPolls extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      pollData: ''
+    };
+  }
+
+  getRandomPoll(arr, max){
+    let index = Math.floor(Math.random() * (arr.length));
+    return arr[index];
+  }
+
+  componentWillMount(){
+    let currentUser = localStorage.getItem("currentUser");
+    fetch(`/${currentUser}/polls`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((user) => {
+        let poll = this.getRandomPoll(user.polls, user.polls.length)
+        console.log('in dwp', poll);
+        this.setState({
+          pollData: poll
+        });
+      });
+  }
+>>>>>>> 5c5a5bbdeb89f3e07c684866bdfbaf2ec4895f85
   render(){
+    let showPoll = this.state.pollData ? <DashboardPollDisplay pollInfo={this.state.pollData}/> : null;
     return (
       <div>
+<<<<<<< HEAD
         <h1 style={{textAlign: "center"}}>A random poll you own</h1>
         <div className="canvas-container">
           <canvas id="chart"></canvas>
         </div>
+=======
+        {showPoll}
+>>>>>>> 5c5a5bbdeb89f3e07c684866bdfbaf2ec4895f85
       </div>
     );
   }

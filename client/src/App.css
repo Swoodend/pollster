@@ -226,6 +226,7 @@ body {
   visibility: visible;
   position: absolute;
   width: 100%;
+  top: 55px;
 }
 .flash-enter {
    opacity: 0.01;
@@ -323,7 +324,7 @@ body {
 
 #vote-button {
   display: block;
-  width: 40%;
+  width: 100%;
   border: none;
   background: #C1D42F;
   color: white;
