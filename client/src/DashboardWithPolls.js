@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
+import { Link } from 'react-router-dom';
 
 class DashboardWithPolls extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      userPolls: ''
+    }
+  }
 
   componentWillMount(){
     this.getRandomPolls();
@@ -18,7 +26,11 @@ class DashboardWithPolls extends Component {
         return res.json();
       })
       .then((pollData) => {
-        this.displayPollData(pollData);
+        this.setState({
+          userPolls: pollData
+        }, () => {
+          this.displayPollData(pollData);
+        })
       })
       .catch((err) => {
         if(err){
@@ -41,7 +53,9 @@ class DashboardWithPolls extends Component {
           data: randomPoll.votes,
           backgroundColor: [
             'deepskyblue',
-            '#FCB723'
+            '#FCB723',
+            'orange',
+            'rebeccapurple'
           ],
           borderColor: [
             'black',
@@ -68,10 +82,20 @@ class DashboardWithPolls extends Component {
   }
 
   render(){
+    let userPolls = this.state.userPolls.polls || [];
+    let pollData = userPolls.map((pollObj, index) => {
+      return (
+        <Link key={index} to={`/polls/${pollObj.id}`}><p>{pollObj.title}</p></Link>
+      )
+    })
+
     return (
       <div>
         <h1 style={{textAlign: "center"}}>A random poll you own</h1>
-        <div className="canvas-container">
+        <div className="left-nav-polls">
+          {pollData}
+        </div>
+        <div style={{position: "relative", height: "75vh", width:"75vw", display:"flex", float:"right"}}>
           <canvas id="chart"></canvas>
         </div>
       </div>
