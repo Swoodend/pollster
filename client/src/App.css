@@ -79,10 +79,14 @@ body {
   width: 50%;
 }
 
-.login, .polls {
+.login, .polls, .nav-new-poll {
   background: #C1D42F;
   min-width: 70px;
   width: 50%;
+}
+
+.nav-new-poll {
+  background: deepskyblue;
 }
 
 .signup, .logout {

@@ -20,6 +20,7 @@ class NavbarLoggedIn extends Component {
         <div className="right">
           <div className="username">{this.props.username}</div>
           <div className="polls"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div>
+          <div className="nav-new-poll"><Link to="/new"><div className="div-anchor">New Poll</div></Link></div>
           <div className="logout"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div>
         </div>
       </div>
