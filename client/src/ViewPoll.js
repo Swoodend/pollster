@@ -42,7 +42,9 @@ class ViewPoll extends Component {
                   data: this.state.pollVotes,
                   backgroundColor: [
                     'deepskyblue',
-                    '#FCB723'
+                    '#FCB723',
+                    'orange',
+                    'rebeccapurple'
                   ],
                   borderColor: [
                     'black',
