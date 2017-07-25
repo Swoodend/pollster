@@ -170,7 +170,7 @@ class ViewPoll extends Component {
       <PollVotingForm
         updateChart={this.updateChart}
         options={this.state.pollOptions}
-      /> : <h1 style={{"position":"absolute", "top": "35px"}}>No poll found</h1>;
+      /> : null
     return (
       <div>
         <ReactCSSTransitionGroup transitionName={"flash"} transitionEnterTimeout={0} transitionLeaveTimeout={1000}>{error}</ReactCSSTransitionGroup>
