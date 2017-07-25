@@ -88,10 +88,12 @@ class DashboardWithPolls extends Component {
       let totalVotes = pollObj.votes.reduce((a, b) => {return a + b;});
 
       return (
-        <div  key={index} className="poll-item div-anchor">
-          <Link to={`/polls/${pollObj.id}`}><p>{pollObj.title}</p></Link>
-          <p>Total votes: {totalVotes}</p>
-        </div>
+        <Link to={`/polls/${pollObj.id}`}>
+          <div  key={index} className="poll-item div-anchor">
+            <div>{pollObj.title}</div>
+            <p>Total votes: {totalVotes}</p>
+          </div>
+        </Link>
       )
     })
 
