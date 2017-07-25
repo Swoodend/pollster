@@ -75,7 +75,7 @@ class NewPollForm extends Component {
                 style={styles.inputStyle}
                 type="text"
                 required="true"
-                placeholder="seperate by a single space"
+                placeholder="option1 option2 option3"
               />
             </div>
             <div>
