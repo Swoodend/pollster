@@ -1,30 +1,12 @@
 /*homepage css*/
-@media screen and (max-width: 320px){
-  .right {
-    width: 60% !important;
+@media screen and (max-width: 570px){
+  .navbar {
+    display: none !important;
   }
 
-  .nav-title {
-    font-size: 1em !important;
+  .secondary-nav {
+    display: flex !important;
   }
-
-  .signup, .logout {
-    padding-right: 15px;
-  }
-}
-
-@media screen and (max-width: 375px){
-  .right {
-    width: 50% !important;
-  }
-}
-
-@media screen and (max-width: 425px){
-  .signup, .logout {
-    text-align: left;
-    padding-left: 15px;
-  }
-
 }
 
 a {
@@ -37,6 +19,7 @@ body {
   padding: 0;
 }
 
+/*navbar*/
 .div-anchor {
   display: block;
 }
@@ -56,6 +39,14 @@ body {
   color: white;
   line-height: 50px;
   z-index: 100;
+}
+
+.left {
+  min-width: 150px;
+}
+
+.right {
+  min-width: 415px;
 }
 
 .nav-title {
@@ -81,12 +72,14 @@ body {
 
 .login, .polls, .nav-new-poll {
   background: #C1D42F;
-  min-width: 70px;
+  min-width: 90px;
   width: 50%;
 }
 
 .nav-new-poll {
   background: deepskyblue;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .signup, .logout {
@@ -94,6 +87,64 @@ body {
   min-width: 100px;
   width: 50%;
 }
+
+/*secondary-nav*/
+.secondary-nav {
+  display: none;
+  position: fixed;
+  top: 0;
+  height: 50px;
+  width: 100%;
+  background: deepskyblue;
+  justify-content: space-between;
+  color: white;
+  line-height: 50px;
+  z-index: 100;
+  text-align: center
+}
+
+.sec-left {
+  width: 33%;
+}
+
+.sec-nav-title{
+  font-family: "Patua One", Arial;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.sec-right {
+  width: 66%;
+  font-family: 'Asap', Arial;
+  font-size: 1.25em;
+  background: #a200ff
+}
+
+.sec-right:hover > div {
+  display: block;
+}
+
+.sec-right-menu {
+  display: none;
+}
+
+.sec-username {
+  background: #f45c42;
+}
+
+.sec-polls {
+  background: #C1D42F;
+}
+
+
+.sec-nav-new-poll {
+  background: deepskyblue;
+}
+
+.sec-logout {
+  background: #FCB723;
+}
+
 
 .image-area .text-box {
   position: relative;
@@ -103,6 +154,7 @@ body {
   top: 200px;
   display: flex;
   justify-content: center;
+
 }
 
 .text-box .text-area {
