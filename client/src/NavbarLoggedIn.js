@@ -30,7 +30,7 @@ class NavbarLoggedIn extends Component {
           <div className="sec-left">
             <div className="sec-nav-title"><Link to ="/">Pollster</Link></div>
           </div>
-          <div className="sec-right"> Options
+          <div className="sec-right"> Options <i className="fa fa-caret-down" aria-hidden="true"></i>
             <div className="sec-right-menu">
               <div className="sec-username">{this.props.username}</div>
               <div className="sec-polls"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div>
