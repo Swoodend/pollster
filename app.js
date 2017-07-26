@@ -6,6 +6,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./db/UserModel').User;
+const Poll = require('./db/PollModel').Poll;
 const jwt = require('jsonwebtoken');
 
 app.use(bodyParser.json());
@@ -74,7 +75,7 @@ app.post('/polls/update/:pollId', (req, res) => {
   }
 });
 
-
+/*low priority*/
 app.get("/:user/polls", (req, res) => {
   let user = req.params.user;
   User.findOne({username: user}, (err, doc) => {
@@ -89,37 +90,59 @@ app.get("/:user/polls", (req, res) => {
 })
 
 app.post('/polls/new', (req, res) => {
-
+  console.log('YOU HIT /POLLS/NEW')
   jwt.verify(req.body.token, 'secret', (err, decoded) => {
-    User.findOne({username: decoded.username}, (err, user) => {
-      if (!err){
-        //for every option, ie kirk or picard, the default num votes is 0
-        let defaultVotes = req.body.options.map((option) => {
-          return 0;
-        });
+    //decoded.username is the username
+    let initialVoteState = req.body.options.map((option) => {
+      return 0
+    });
 
-        let pollInfo = {
-          id: Math.random().toString(36).slice(2),
-          author: decoded.username,
-          title: req.body.title,
-          options: req.body.options,
-          votes: defaultVotes
-        };
-        user.polls.push(pollInfo);
-        user.save((err) => {
-          if (err){
-            console.log('ERROR SAVING THE USERS POLL DATA');
-          } else {
-            res.json({
-              status: "OK",
-              pollId: pollInfo.id
-            });
-          }
-        })
-      } else {
-        console.log('couldnt find that user');
+    let newPoll = new Poll (
+      {
+        id: Math.random().toString(36).slice(2),
+        title: req.body.title,
+        author: decoded.username,
+        options: req.body.options,
+        votes: initialVoteState
       }
+    );
+
+    newPoll.save((err) => {
+      if (err) console.log('ERROR SAVING NEW POLL', err);
+      res.json({
+        status: "OK",
+        pollId: newPoll.id
+      })
     })
+    // User.findOne({username: decoded.username}, (err, user) => {
+    //   if (!err){
+    //     //for every option, ie kirk or picard, the default num votes is 0
+    //     let defaultVotes = req.body.options.map((option) => {
+    //       return 0;
+    //     });
+    //
+    //     let pollInfo = {
+    //       id: Math.random().toString(36).slice(2),
+    //       author: decoded.username,
+    //       title: req.body.title,
+    //       options: req.body.options,
+    //       votes: defaultVotes
+    //     };
+    //     user.polls.push(pollInfo);
+    //     user.save((err) => {
+    //       if (err){
+    //         console.log('ERROR SAVING THE USERS POLL DATA');
+    //       } else {
+    //         res.json({
+    //           status: "OK",
+    //           pollId: pollInfo.id
+    //         });
+    //       }
+    //     })
+    //   } else {
+    //     console.log('couldnt find that user');
+    //   }
+    // })
   });
 });
 
