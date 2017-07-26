@@ -96,7 +96,7 @@ class ViewPoll extends Component {
         })
       };
 
-      console.log('pollid', pollId);
+      //this route needs to be fixed...no votes 
       fetch(`/polls/update/${pollId}`, requestConfig)
         .then((res) => {
           return res.json();
