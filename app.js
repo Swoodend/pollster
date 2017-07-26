@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const User = require('./db/UserModel').User;
 const Poll = require('./db/PollModel').Poll;
 const jwt = require('jsonwebtoken');
+const gm = require("getmac");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -20,61 +21,91 @@ mongoose.connect("mongodb://localhost/pollster");
 users can only vote once by (use MAC address)*/
 app.post('/polls/update/:pollId', (req, res) => {
   console.log('you hit /polls/update/:pollId with', req.params.pollId);
-  let anonymousUser = req.body.isAnon;
-  let currentUser = req.body.currentUser;
-  console.log('anonymousUser status', anonymousUser);
-  console.log('currentUser is', currentUser);
-  if (anonymousUser){
-    console.log('in anon user logic');
-    User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user) => {
-      user.polls[0].votes = req.body.newVoteState;
-      user.markModified("polls");
-      user.save();
-    });
-    res.json({status: "anon vote"});
-  } else {
-    User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user1) => {
-      let alreadyVoted = user1.votedOn.indexOf(req.params.pollId) > -1 && currentUser === user1.username;
-      if (!alreadyVoted && currentUser === user1.username){
-        console.log('found the user the votes are currently', user1.polls[0].votes)
-        user1.polls[0].votes = req.body.newVoteState
-        user1.votedOn.push(req.params.pollId);
-        user1.markModified("polls");
-        user1.markModified('votedOn');
-        user1.save((err) => {
-          if(err){
-            console.log(err);
-          } else {
-            console.log('you saved');
-          }
-        });
-        console.log('saved votes are now', user1.polls[0].votes);
-        res.json({status: "OK"});
-      } else if (!alreadyVoted && currentUser !== user1.username){
-        console.log('not voted, different than owner')
-        User.findOne({username: currentUser}, (err, user) => {
-          console.log('in the user logic', user);
-          console.log(user.votedOn.indexOf(req.params.pollId));
-          if(user.votedOn.indexOf(req.params.pollId) === - 1){
-            user.votedOn.push(req.params.pollId);
-            user.markModified('votedOn');
-            user.save();
-            user1.polls[0].votes = req.body.newVoteState;
-            user1.markModified("polls");
-            user1.save();
-            res.json({status:"OK"});
-          } else {
-            console.log('sending already voted');
-            res.json({status: "already voted"});
-          }
-        });
-
+  // let anonymousUser = req.body.isAnon;
+  // let currentUser = req.body.currentUser;
+  // let newVoteState = req.body.newVoteState;
+  gm.getMac((err, macAddress) => {
+    // console.log('new vote state', req.body.newVoteState);
+    // console.log('mac address', macAddress);
+    // console.log('INDEX', req.body.index);
+    Poll.findOne({id: req.params.pollId}, (err, poll) => {
+      if (err) return console.log('something went wrong in /polls/update/:pollId', err);
+      //if we have not received a vote from that machine yet
+      if (poll.voters.indexOf(macAddress) === -1){
+        poll.votes[req.body.index] += 1;
+        poll.voters.push(macAddress);
+        poll.save((err, updatedPoll) => {
+          console.log('saved the poll. state is', updatedPoll);
+          res.json(
+            {
+              status: "OK",
+              updatedVotes: poll.votes
+            }
+          );
+        })
       } else {
-        console.log('went to alreayd voted');
-        res.json({status: "already voted"});
+        //user already voted
+        res.json(
+          {
+            status: "Already voted"
+          }
+        )
       }
-    });
-  }
+
+    })
+  })
+
+  // if (anonymousUser){
+  //   console.log('in anon user logic');
+  //   User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user) => {
+  //     user.polls[0].votes = req.body.newVoteState;
+  //     user.markModified("polls");
+  //     user.save();
+  //   });
+  //   res.json({status: "anon vote"});
+  // } else {
+  //   User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user1) => {
+  //     let alreadyVoted = user1.votedOn.indexOf(req.params.pollId) > -1 && currentUser === user1.username;
+  //     if (!alreadyVoted && currentUser === user1.username){
+  //       console.log('found the user the votes are currently', user1.polls[0].votes)
+  //       user1.polls[0].votes = req.body.newVoteState
+  //       user1.votedOn.push(req.params.pollId);
+  //       user1.markModified("polls");
+  //       user1.markModified('votedOn');
+  //       user1.save((err) => {
+  //         if(err){
+  //           console.log(err);
+  //         } else {
+  //           console.log('you saved');
+  //         }
+  //       });
+  //       console.log('saved votes are now', user1.polls[0].votes);
+  //       res.json({status: "OK"});
+  //     } else if (!alreadyVoted && currentUser !== user1.username){
+  //       console.log('not voted, different than owner')
+  //       User.findOne({username: currentUser}, (err, user) => {
+  //         console.log('in the user logic', user);
+  //         console.log(user.votedOn.indexOf(req.params.pollId));
+  //         if(user.votedOn.indexOf(req.params.pollId) === - 1){
+  //           user.votedOn.push(req.params.pollId);
+  //           user.markModified('votedOn');
+  //           user.save();
+  //           user1.polls[0].votes = req.body.newVoteState;
+  //           user1.markModified("polls");
+  //           user1.save();
+  //           res.json({status:"OK"});
+  //         } else {
+  //           console.log('sending already voted');
+  //           res.json({status: "already voted"});
+  //         }
+  //       });
+  //
+  //     } else {
+  //       console.log('went to alreayd voted');
+  //       res.json({status: "already voted"});
+  //     }
+  //   });
+  // }
 });
 
 /*this route is done and works correctly*/
