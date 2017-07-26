@@ -89,6 +89,7 @@ app.get("/:user/polls", (req, res) => {
   })
 })
 
+/*this route is done and works correctly*/
 app.post('/polls/new', (req, res) => {
   console.log('YOU HIT /POLLS/NEW')
   jwt.verify(req.body.token, 'secret', (err, decoded) => {
@@ -213,44 +214,60 @@ app.post('/login', (req, res) => {
   //if the email is not verified it will display a flash message
 })
 
+/*this route is done and works correctly*/
 app.get('/polls/:pollId', (req, res) => {
   console.log(`you hit /polls/${req.params.pollId}`);
-  User.aggregate(
-    [
-      {$match: {"polls.id": req.params.pollId}},
-      {$unwind: "$polls"},
-      {$match: {"polls.id": req.params.pollId}}
-    ],
-    function(err, results) {
-      if (err){
-        console.log(err);
-      } else {
-        console.log('in /polls/pollid');
-        console.log('results are', results);
-        if (results.length > 0){
-          let pollData = results[0].polls;
-          let author = pollData.author;
-          let title = pollData.title;
-          let options = pollData.options;
-          let votes = pollData.votes;
-
-          console.log(author, title, options, votes);
-          res.json({
-            status: "OK",
-            pollData: {
-              author,
-              title,
-              options,
-              votes
-            }
-          });
-        } else {
-          res.json({status: "no poll found"})
-        }
-
+  Poll.find({id: req.params.pollId}, (err, poll) => {
+    if (err) console.log('err in /polls/:pollId', err);
+    res.json(
+      {
+        status: "OK",
+        pollData:
+          {
+            author: poll[0].author,
+            title: poll[0].title,
+            options: poll[0].options,
+            votes: poll[0].votes
+          }
       }
-    }
-  );
+    );
+  });
+  // User.aggregate(
+  //   [
+  //     {$match: {"polls.id": req.params.pollId}},
+  //     {$unwind: "$polls"},
+  //     {$match: {"polls.id": req.params.pollId}}
+  //   ],
+  //   function(err, results) {
+  //     if (err){
+  //       console.log(err);
+  //     } else {
+  //       console.log('in /polls/pollid');
+  //       console.log('results are', results);
+  //       if (results.length > 0){
+  //         let pollData = results[0].polls;
+  //         let author = pollData.author;
+  //         let title = pollData.title;
+  //         let options = pollData.options;
+  //         let votes = pollData.votes;
+  //
+  //         console.log(author, title, options, votes);
+  //         res.json({
+  //           status: "OK",
+  //           pollData: {
+  //             author,
+  //             title,
+  //             options,
+  //             votes
+  //           }
+  //         });
+  //       } else {
+  //         res.json({status: "no poll found"})
+  //       }
+  //
+  //     }
+  //   }
+  // );
 });
 
 app.listen(process.env.PORT || 3001, () => {
