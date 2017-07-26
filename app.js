@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost/pollster");
 
+/*this is the next route to fix. will facilitate voting on poll and ensure
+users can only vote once by (use MAC address)*/
 app.post('/polls/update/:pollId', (req, res) => {
   console.log('you hit /polls/update/:pollId with', req.params.pollId);
   let anonymousUser = req.body.isAnon;
@@ -75,18 +77,28 @@ app.post('/polls/update/:pollId', (req, res) => {
   }
 });
 
-/*low priority*/
+/*this route is done and works correctly*/
 app.get("/:user/polls", (req, res) => {
   let user = req.params.user;
-  User.findOne({username: user}, (err, doc) => {
-    if (err){
-      console.log('err with /:user/polls query');
-    } else {
-      console.log(doc);
-      res.json({status: "OK", polls: doc.polls})
-
-    }
+  console.log('you hit /:user/polls with', user);
+  Poll.find({author: user}, (err, pollArr) => {
+    if (err) return console.log('something went wrong in /:user/polls', err);
+    res.json(
+      {
+        status: "OK",
+        polls: pollArr
+      }
+    );
   })
+  // User.findOne({username: user}, (err, doc) => {
+  //   if (err){
+  //     console.log('err with /:user/polls query');
+  //   } else {
+  //     console.log(doc);
+  //     res.json({status: "OK", polls: doc.polls})
+  //
+  //   }
+  // })
 })
 
 /*this route is done and works correctly*/
