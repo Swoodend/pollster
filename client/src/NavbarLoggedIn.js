@@ -28,7 +28,7 @@ class NavbarLoggedIn extends Component {
 
         <div className="secondary-nav">
           <div className="sec-left">
-            <div className="sec-nav-title"><Link to ="/">Pollster</Link></div>
+            <div className="sec-nav-title"><Link to="/">Pollster</Link></div>
           </div>
           <div className="sec-right"> Options <i className="fa fa-caret-down" aria-hidden="true"></i>
             <div className="sec-right-menu">
