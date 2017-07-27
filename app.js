@@ -33,6 +33,7 @@ app.post('/polls/update/:pollId', (req, res) => {
       //if we have not received a vote from that machine yet
       if (poll.voters.indexOf(macAddress) === -1){
         poll.votes[req.body.index] += 1;
+        poll.markModified('votes');
         poll.voters.push(macAddress);
         poll.save((err, updatedPoll) => {
           console.log('saved the poll. state is', updatedPoll);
