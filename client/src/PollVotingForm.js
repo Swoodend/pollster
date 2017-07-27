@@ -33,11 +33,14 @@ class PollVotingForm extends Component{
     });
 
     return (
-      <div className="voting-form-container">
-        <form onSubmit={this.handleSubmit}>
-          {options}
-          <input id="vote-button" type="submit" value="VOTE!"/>
-        </form>
+      <div>
+        <div className="voting-form-container">
+          <form onSubmit={this.handleSubmit}>
+            {options}
+            <input id="vote-button" type="submit" value="VOTE!"/>
+          </form>
+        </div>
+        <a className="tweet-btn twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a>
       </div>
     )
   }
