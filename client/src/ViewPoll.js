@@ -101,6 +101,7 @@ class ViewPoll extends Component {
           }, () => {
             console.log('poll votes set to', this.state.pollVotes);
             console.log(poll);
+            poll.data.datasets[0].data = this.state.pollVotes;
             poll.update();
             console.log("POLL.UPDATE RAN");
           });
