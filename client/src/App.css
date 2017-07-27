@@ -373,11 +373,6 @@ body {
   justify-content: center;
 }
 
-/*.voting-form-container form {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}*/
 
 #vote-button {
   display: block;
@@ -434,8 +429,20 @@ body {
 
 .poll-item {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   height: 55px;
   width: 100%;
-  background: lightblue;
+  background: linear-gradient(to right, lightblue 50%, ivory 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+
+.poll-item:hover {
+  background-position: left bottom;
+  transition: all 1s ease;
+}
+
+.poll-item > div {
+  padding-left: 15px;
 }
