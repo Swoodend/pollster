@@ -91,7 +91,7 @@ class DashboardWithPolls extends Component {
         <Link key={index} to={`/polls/${pollObj.id}`}>
           <div className="poll-item div-anchor">
             <div>{pollObj.title}</div>
-            <p>Total votes: {totalVotes}</p>
+            <div>Total votes: {totalVotes}</div>
           </div>
         </Link>
       )
@@ -101,6 +101,7 @@ class DashboardWithPolls extends Component {
       <div>
         <h1 style={{textAlign: "center"}}>A random poll you own</h1>
         <div className="left-nav-polls">
+          <h3 style={{textAlign: "center"}}>My Polls</h3>
           {pollData}
         </div>
         <div style={{position: "relative", height: "75vh", width:"75vw", display:"flex", float:"right"}}>
