@@ -14,7 +14,7 @@ export default class DeletePollModal extends Component {
   }
 
   handleYesClicked(){
-    console.log('you clicked the yes button');
+    console.log('you clicked the yes button with pollId', this.props.deletePollId);
   }
 
   render(){

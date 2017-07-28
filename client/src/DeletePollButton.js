@@ -9,7 +9,8 @@ class DeletePollButton extends Component{
 
   handleClick(){
     console.log('delete button was clicked!');
-    this.props.setModalState(this.props.pollTitle);
+    console.log('props', this.props);
+    this.props.setModalState(this.props.pollTitle, this.props.pollId);
   }
 
   render(){

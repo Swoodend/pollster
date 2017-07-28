@@ -10,7 +10,8 @@ class DashboardWithPolls extends Component {
     super(props);
     this.state = {
       userPolls: '',
-      displayingModal: false
+      displayingModal: false,
+      deletePollId: null
     }
 
     this.displayModal = this.displayModal.bind(this);
@@ -87,9 +88,11 @@ class DashboardWithPolls extends Component {
     })
   }
 
-  displayModal(pollTitle){
+  displayModal(pollTitle, pollId){
+    console.log('DISPLAY MODAL CALLED WITH POLLID', pollId);
     this.setState({
-      displayingModal : pollTitle
+      displayingModal : pollTitle,
+      deletePollId: pollId
     }, () => {
       console.log('now displaying modal', this.state.displayingModal);
     })
@@ -98,7 +101,8 @@ class DashboardWithPolls extends Component {
   removeModal(){
     this.setState(
       {
-        displayingModal: false
+        displayingModal: false,
+        deletePollId: null
       }
     )
   }
@@ -107,7 +111,7 @@ class DashboardWithPolls extends Component {
     console.log('render called');
     let userPolls = this.state.userPolls.polls || [];
     let modal = this.state.displayingModal ?
-      <DeletePollModal removeModal={this.removeModal}
+      <DeletePollModal deletePollId={this.state.deletePollId} removeModal={this.removeModal}
       pollTitle={this.state.displayingModal}
       /> : null
     let pollData = userPolls.map((pollObj, index) => {
@@ -121,13 +125,13 @@ class DashboardWithPolls extends Component {
                 <div className="poll-votes">Total votes: {totalVotes}</div>
               </div>
             </Link>
-            <DeletePollButton pollTitle={pollObj.title} setModalState={this.displayModal}/>
+            <DeletePollButton pollId={pollObj.id} pollTitle={pollObj.title} setModalState={this.displayModal}/>
           </div>
         )
       } else {
         return (
           <div key={index}>
-            <DeletePollModal pollTitle={this.state.displayingModal}/>
+            <DeletePollModal deletePollId={this.state.deletePollId} pollTitle={this.state.displayingModal}/>
             <div key={index} style={{position:"relative"}}>
               <Link to={`/polls/${pollObj.id}`}>
                 <div className="poll-item div-anchor">
@@ -135,7 +139,7 @@ class DashboardWithPolls extends Component {
                   <div className="poll-votes">Total votes: {totalVotes}</div>
                 </div>
               </Link>
-              <DeletePollButton pollTitle={pollObj.title} setModalState={this.displayModal}/>
+              <DeletePollButton pollId={pollObj.id} pollTitle={pollObj.title} setModalState={this.displayModal}/>
             </div>
           </div>
         )
