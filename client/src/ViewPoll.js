@@ -11,6 +11,7 @@ class ViewPoll extends Component {
     super(props);
     this.updateChart = this.updateChart.bind(this);
     this.state = {
+      id: '',
       pollTitle: '',
       pollAuthor: '',
       pollOptions: '',
@@ -29,6 +30,7 @@ class ViewPoll extends Component {
       .then((res) => {
         if (res.status === "OK"){
           this.setState({
+            id: res.pollData.id,
             pollTitle: res.pollData.title,
             pollAuthor: res.pollData.author,
             pollOptions: res.pollData.options,
@@ -215,6 +217,9 @@ class ViewPoll extends Component {
       <PollVotingForm
         updateChart={this.updateChart}
         options={this.state.pollOptions}
+        title={this.state.pollTitle}
+        votes={this.state.pollVotes}
+        id={this.state.id}
       /> : null
     return (
       <div>
