@@ -271,7 +271,8 @@ app.get('/polls/:pollId', (req, res) => {
             author: poll[0].author,
             title: poll[0].title,
             options: poll[0].options,
-            votes: poll[0].votes
+            votes: poll[0].votes,
+            id: poll[0].id
           }
       }
     );
