@@ -76,6 +76,10 @@ body {
   width: 50%;
 }
 
+.login, .signup, .polls, .nav-new-poll, .logout {
+  position: relative;
+}
+
 .nav-new-poll {
   background: deepskyblue;
   padding-left: 8px;
@@ -445,4 +449,35 @@ body {
 
 .poll-item > div {
   padding-left: 15px;
+}
+
+.login:hover > .overlay, .signup:hover > .overlay, .polls:hover > .overlay {
+  position:absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  opacity: 0.2;
+}
+
+.nav-new-poll:hover > .overlay, .logout:hover > .overlay {
+  position:absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  opacity: 0.2;
+}
+
+.sec-polls:hover > .overlay,
+.sec-nav-new-poll:hover > .overlay,
+.sec-polls:hover > .overlay,
+.sec-nav-new-poll:hover > .overlay,
+.sec-logout:hover > .overlay {
+  height: 100%;
+  width: 100%;
+  background: #000;
+  opacity: 0.2;
 }

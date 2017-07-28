@@ -20,9 +20,9 @@ class NavbarLoggedIn extends Component {
           </div>
           <div className="right">
             <div className="username">{this.props.username}</div>
-            <div className="polls"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div>
-            <div className="nav-new-poll"><Link to="/new"><div className="div-anchor">New Poll</div></Link></div>
-            <div className="logout"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div>
+            <div className="polls"><div className="overlay"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div></div>
+            <div className="nav-new-poll"><div className="overlay"><Link to="/new"><div className="div-anchor">New Poll</div></Link></div></div>
+            <div className="logout"><div className="overlay"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div></div>
           </div>
         </div>
 
@@ -33,9 +33,9 @@ class NavbarLoggedIn extends Component {
           <div className="sec-right"> Options <i className="fa fa-caret-down" aria-hidden="true"></i>
             <div className="sec-right-menu">
               <div className="sec-username">{this.props.username}</div>
-              <div className="sec-polls"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div>
-              <div className="sec-nav-new-poll"><Link to="/new"><div className="div-anchor">New Poll</div></Link></div>
-              <div className="sec-logout"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div>
+              <div className="sec-polls"><div className="overlay"><Link to="/dashboard"><div className="div-anchor">Polls</div></Link></div></div>
+              <div className="sec-nav-new-poll"><div className="overlay"><Link to="/new"><div className="div-anchor">New Poll</div></Link></div></div>
+              <div className="sec-logout"><div className="overlay"><div onClick={this.handleLogout} className="div-anchor">Logout</div></div></div>
             </div>
           </div>
         </div>
