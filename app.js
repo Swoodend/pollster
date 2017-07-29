@@ -174,8 +174,12 @@ app.get('/polls/:pollId', (req, res) => {
 });
 
 app.delete('/polls/:pollId', (req, res) => {
-  res.json({
-    status: 'hello from delete'
+  console.log('HIT DELETE');
+  Poll.remove({id: req.body.id}, (err) => {
+    if (err) return console.log('something went wrong in delete', err);
+    res.json({
+      status: 'deleted'
+    })
   })
 });
 
