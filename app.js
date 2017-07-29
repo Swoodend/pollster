@@ -20,14 +20,7 @@ mongoose.connect("mongodb://localhost/pollster");
 /*this is the next route to fix. will facilitate voting on poll and ensure
 users can only vote once by (use MAC address)*/
 app.post('/polls/update/:pollId', (req, res) => {
-  console.log('you hit /polls/update/:pollId with', req.params.pollId);
-  // let anonymousUser = req.body.isAnon;
-  // let currentUser = req.body.currentUser;
-  // let newVoteState = req.body.newVoteState;
   gm.getMac((err, macAddress) => {
-    // console.log('new vote state', req.body.newVoteState);
-    // console.log('mac address', macAddress);
-    // console.log('INDEX', req.body.index);
     Poll.findOne({id: req.params.pollId}, (err, poll) => {
       if (err) return console.log('something went wrong in /polls/update/:pollId', err);
       //if we have not received a vote from that machine yet
@@ -55,61 +48,8 @@ app.post('/polls/update/:pollId', (req, res) => {
 
     })
   })
-
-  // if (anonymousUser){
-  //   console.log('in anon user logic');
-  //   User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user) => {
-  //     user.polls[0].votes = req.body.newVoteState;
-  //     user.markModified("polls");
-  //     user.save();
-  //   });
-  //   res.json({status: "anon vote"});
-  // } else {
-  //   User.findOne({polls: {$elemMatch: {id: req.params.pollId}}}, (err, user1) => {
-  //     let alreadyVoted = user1.votedOn.indexOf(req.params.pollId) > -1 && currentUser === user1.username;
-  //     if (!alreadyVoted && currentUser === user1.username){
-  //       console.log('found the user the votes are currently', user1.polls[0].votes)
-  //       user1.polls[0].votes = req.body.newVoteState
-  //       user1.votedOn.push(req.params.pollId);
-  //       user1.markModified("polls");
-  //       user1.markModified('votedOn');
-  //       user1.save((err) => {
-  //         if(err){
-  //           console.log(err);
-  //         } else {
-  //           console.log('you saved');
-  //         }
-  //       });
-  //       console.log('saved votes are now', user1.polls[0].votes);
-  //       res.json({status: "OK"});
-  //     } else if (!alreadyVoted && currentUser !== user1.username){
-  //       console.log('not voted, different than owner')
-  //       User.findOne({username: currentUser}, (err, user) => {
-  //         console.log('in the user logic', user);
-  //         console.log(user.votedOn.indexOf(req.params.pollId));
-  //         if(user.votedOn.indexOf(req.params.pollId) === - 1){
-  //           user.votedOn.push(req.params.pollId);
-  //           user.markModified('votedOn');
-  //           user.save();
-  //           user1.polls[0].votes = req.body.newVoteState;
-  //           user1.markModified("polls");
-  //           user1.save();
-  //           res.json({status:"OK"});
-  //         } else {
-  //           console.log('sending already voted');
-  //           res.json({status: "already voted"});
-  //         }
-  //       });
-  //
-  //     } else {
-  //       console.log('went to alreayd voted');
-  //       res.json({status: "already voted"});
-  //     }
-  //   });
-  // }
 });
 
-/*this route is done and works correctly*/
 app.get("/:user/polls", (req, res) => {
   let user = req.params.user;
   console.log('you hit /:user/polls with', user);
@@ -121,23 +61,13 @@ app.get("/:user/polls", (req, res) => {
         polls: pollArr
       }
     );
-  })
-  // User.findOne({username: user}, (err, doc) => {
-  //   if (err){
-  //     console.log('err with /:user/polls query');
-  //   } else {
-  //     console.log(doc);
-  //     res.json({status: "OK", polls: doc.polls})
-  //
-  //   }
-  // })
-})
+  });
+});
 
-/*this route is done and works correctly*/
+
 app.post('/polls/new', (req, res) => {
   console.log('YOU HIT /POLLS/NEW')
   jwt.verify(req.body.token, 'secret', (err, decoded) => {
-    //decoded.username is the username
     let initialVoteState = req.body.options.map((option) => {
       return 0
     });
@@ -157,37 +87,8 @@ app.post('/polls/new', (req, res) => {
       res.json({
         status: "OK",
         pollId: newPoll.id
-      })
-    })
-    // User.findOne({username: decoded.username}, (err, user) => {
-    //   if (!err){
-    //     //for every option, ie kirk or picard, the default num votes is 0
-    //     let defaultVotes = req.body.options.map((option) => {
-    //       return 0;
-    //     });
-    //
-    //     let pollInfo = {
-    //       id: Math.random().toString(36).slice(2),
-    //       author: decoded.username,
-    //       title: req.body.title,
-    //       options: req.body.options,
-    //       votes: defaultVotes
-    //     };
-    //     user.polls.push(pollInfo);
-    //     user.save((err) => {
-    //       if (err){
-    //         console.log('ERROR SAVING THE USERS POLL DATA');
-    //       } else {
-    //         res.json({
-    //           status: "OK",
-    //           pollId: pollInfo.id
-    //         });
-    //       }
-    //     })
-    //   } else {
-    //     console.log('couldnt find that user');
-    //   }
-    // })
+      });
+    });
   });
 });
 
@@ -249,16 +150,9 @@ app.post('/login', (req, res) => {
     } else {
       res.json({type:"Error", message: "Username does not exist"});
     }
-  })
-  //this route will find the user by email, if the password is correct
-  //and verified === true it will send a truthy value the browser
-  //react will then redirect to /user/username/polls
-  //if password is wrong it will send bad password to browser and
-  //then react will display a flash message
-  //if the email is not verified it will display a flash message
-})
+  });
+});
 
-/*this route is done and works correctly*/
 app.get('/polls/:pollId', (req, res) => {
   console.log(`you hit /polls/${req.params.pollId}`);
   Poll.find({id: req.params.pollId}, (err, poll) => {
@@ -277,43 +171,15 @@ app.get('/polls/:pollId', (req, res) => {
       }
     );
   });
-  // User.aggregate(
-  //   [
-  //     {$match: {"polls.id": req.params.pollId}},
-  //     {$unwind: "$polls"},
-  //     {$match: {"polls.id": req.params.pollId}}
-  //   ],
-  //   function(err, results) {
-  //     if (err){
-  //       console.log(err);
-  //     } else {
-  //       console.log('in /polls/pollid');
-  //       console.log('results are', results);
-  //       if (results.length > 0){
-  //         let pollData = results[0].polls;
-  //         let author = pollData.author;
-  //         let title = pollData.title;
-  //         let options = pollData.options;
-  //         let votes = pollData.votes;
-  //
-  //         console.log(author, title, options, votes);
-  //         res.json({
-  //           status: "OK",
-  //           pollData: {
-  //             author,
-  //             title,
-  //             options,
-  //             votes
-  //           }
-  //         });
-  //       } else {
-  //         res.json({status: "no poll found"})
-  //       }
-  //
-  //     }
-  //   }
-  // );
 });
+
+app.delete('/polls/:pollId', (req, res) => {
+  res.json({
+    status: 'hello from delete'
+  })
+});
+
+
 
 app.listen(process.env.PORT || 3001, () => {
   let port = process.env.PORT || 3001;
