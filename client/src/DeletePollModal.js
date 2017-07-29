@@ -28,7 +28,9 @@ export default class DeletePollModal extends Component {
         return res.json();
       })
       .then((res) => {
-        console.log(res.status);
+        if (res.status === 'deleted'){
+          this.props.pollDeleted(this.props.deletePollId)
+        }
       })
 
   }
