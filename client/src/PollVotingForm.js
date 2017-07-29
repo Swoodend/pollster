@@ -21,7 +21,6 @@ class PollVotingForm extends Component{
 
   handleSubmit(e){
     e.preventDefault();
-    console.log('you submitted the form');
     this.props.updateChart(this.state.voteValue);
   }
 

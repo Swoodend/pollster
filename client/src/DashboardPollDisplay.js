@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 
 export default class DashboardPollDisplay extends Component {
 
-  componentWillMount(){
-    console.log('pollinfo in nested one', this.props.pollInfo);
-    console.log(this.props.pollInfo.options[0]);
-  }
   render(){
     return (
       <div>

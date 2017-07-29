@@ -29,7 +29,6 @@ app.post('/polls/update/:pollId', (req, res) => {
         poll.markModified('votes');
         poll.voters.push(macAddress);
         poll.save((err, updatedPoll) => {
-          console.log('saved the poll. state is', updatedPoll);
           res.json(
             {
               status: "OK",
@@ -52,7 +51,6 @@ app.post('/polls/update/:pollId', (req, res) => {
 
 app.get("/:user/polls", (req, res) => {
   let user = req.params.user;
-  console.log('you hit /:user/polls with', user);
   Poll.find({author: user}, (err, pollArr) => {
     if (err) return console.log('something went wrong in /:user/polls', err);
     res.json(
@@ -66,7 +64,6 @@ app.get("/:user/polls", (req, res) => {
 
 
 app.post('/polls/new', (req, res) => {
-  console.log('YOU HIT /POLLS/NEW')
   jwt.verify(req.body.token, 'secret', (err, decoded) => {
     let initialVoteState = req.body.options.map((option) => {
       return 0
@@ -98,7 +95,6 @@ app.get('/validate/:token', (req, res) => {
   if (token){
     jwt.verify(token, 'secret', (err, decoded) => {
       if(!err && decoded){
-        console.log('token validated sednding', decoded.username);
         res.json({user: decoded.username});
       } else {
         res.json({user: false});
@@ -136,7 +132,6 @@ app.post('/signup', (req, res) => {
 app.post('/login', (req, res) => {
   User.findOne({'username': req.body.username}, (err, user) => {
     if (err) {
-      console.log('something went wrong');
       res.json({type:"Error", message:"Something went wrong"});
     }
 
@@ -154,7 +149,6 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/polls/:pollId', (req, res) => {
-  console.log(`you hit /polls/${req.params.pollId}`);
   Poll.find({id: req.params.pollId}, (err, poll) => {
     if (err) console.log('err in /polls/:pollId', err);
     res.json(
@@ -174,7 +168,6 @@ app.get('/polls/:pollId', (req, res) => {
 });
 
 app.delete('/polls/:pollId', (req, res) => {
-  console.log('HIT DELETE');
   Poll.remove({id: req.body.id}, (err) => {
     if (err) return console.log('something went wrong in delete', err);
     res.json({

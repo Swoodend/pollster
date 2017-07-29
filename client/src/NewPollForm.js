@@ -9,7 +9,6 @@ class NewPollForm extends Component {
 
   handleSubmit(e){
     e.preventDefault();
-    console.log('form submitted');
     let token = localStorage.getItem('jwt');
     let title = this.refs.title.value;
     let options = this.refs.options.value.split(' ');
@@ -31,13 +30,7 @@ class NewPollForm extends Component {
         if (res.status === "OK"){
           window.location.replace(`http://localhost:3000/polls/${res.pollId}`);
         }
-      })
-
-    //send the jwt
-    //get usersname on backend with the jwt
-    //save the chart title to db to that users polls
-    //save the options to db, needs to be an array like values: [spock, kirk]
-    //then redirect to /polls/view/:pollid
+      });
   }
 
   render(){

@@ -14,7 +14,6 @@ export default class DeletePollModal extends Component {
 
   handleYesClicked(){
     //this.props.deletepollId;
-    console.log('clicked yes button');
     let requestConfig = {
       method: "DELETE",
       body: JSON.stringify({

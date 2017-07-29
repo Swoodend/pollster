@@ -21,7 +21,6 @@ class ViewPoll extends Component {
   }
 
   componentDidMount(){
-    console.log("CWM called");
     let pollId = this.props.match.params.pollId;
     fetch(`/polls/${pollId}`)
       .then((res) => {
@@ -80,7 +79,6 @@ class ViewPoll extends Component {
 
   updateChart(index){
     let pollId = this.props.match.params.pollId;
-    console.log("POLLID", pollId);
 
     let requestConfig = {
       method: "POST",
@@ -101,11 +99,8 @@ class ViewPoll extends Component {
           this.setState({
             pollVotes: updatedVotes
           }, () => {
-            console.log('poll votes set to', this.state.pollVotes);
-            console.log(poll);
             poll.data.datasets[0].data = this.state.pollVotes;
             poll.update();
-            console.log("POLL.UPDATE RAN");
           });
         } else {
           if (res.status === "Already voted"){
@@ -131,82 +126,7 @@ class ViewPoll extends Component {
             console.log('something VERY strange has occured');
           }
         }
-      })
-
-    // let votedOn = JSON.parse(JSON.stringify(localStorage.getItem("votedOn"))) || [];
-    // let alreadyVoted = votedOn.indexOf(this.props.match.params.pollId) > -1 ? true : false;
-    // let anonymousUser = !localStorage.getItem("currentUser");
-    // if (!alreadyVoted){
-    //   let updatedVotes = this.state.pollVotes.slice();
-    //   updatedVotes[index] += 1;
-    //   //save to db
-    //   let pollId = this.props.match.params.pollId;
-
-    //
-    //   //this route needs to be fixed...no votes
-    //   fetch(`/polls/update/${pollId}`, requestConfig)
-    //     .then((res) => {
-    //       return res.json();
-    //     })
-    //     .then ((res) => {
-    //       if (res.status === "OK"){
-    //         console.log('res completed successfully');
-    //         this.setState({
-    //           pollVotes: updatedVotes
-    //         }, () => {
-    //           console.log('chart state is now', this.state);
-    //           console.log('poll is', poll);
-    //           poll.data.datasets[0].data = this.state.pollVotes;
-    //           poll.update();
-    //         });
-    //       } else if (res.status === "no poll found"){
-    //         console.log('didnt find a poll');
-    //       } else if (res.status === "already voted"){
-    //         let errorType = 'Already Voted';
-    //         let errorMessage = 'Sorry, but you have already voted on this poll. You cannot vote again.';
-    //         this.setState({
-    //           error: {type: errorType, message: errorMessage}
-    //         }, () => {
-    //           window.setTimeout(() => {
-    //             this.setState({
-    //               error: null
-    //             })
-    //           }, 2000)
-    //         });
-    //       } else if (res.status === "anon vote") {
-    //           console.log('res completed successfully');
-    //           this.setState({
-    //             pollVotes: updatedVotes
-    //           }, () => {
-    //             console.log('chart state is now', this.state);
-    //             console.log('poll is', poll);
-    //             if (localStorage.getItem("votedOn")){
-    //               let arr = JSON.parse(localStorage.getItem("votedOn"));
-    //               arr.push(this.props.match.params.pollId);
-    //               localStorage.setItem("votedOn", arr);
-    //             } else {
-    //               let arr = this.props.match.params.pollId.split();
-    //               arr = JSON.stringify(arr);
-    //               localStorage.setItem("votedOn", arr);
-    //             }
-    //             poll.data.datasets[0].data = this.state.pollVotes;
-    //             poll.update();
-    //           });
-    //       }
-    //     })
-    // } else {
-    //   let errorType = 'Already Voted';
-    //   let errorMessage = 'Sorry, but you have already voted on this poll. You cannot vote again.';
-    //   this.setState({
-    //     error: {type: errorType, message: errorMessage}
-    //   }, () => {
-    //     window.setTimeout(() => {
-    //       this.setState({
-    //         error: null
-    //       })
-    //     }, 2000)
-    //   });
-    // }
+      });
   }
 
   render(){
