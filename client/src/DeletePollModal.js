@@ -9,12 +9,28 @@ export default class DeletePollModal extends Component {
   }
 
   handleNoClicked(){
-    console.log('you clicked the no button');
     this.props.removeModal();
   }
 
   handleYesClicked(){
-    console.log('you clicked the yes button with pollId', this.props.deletePollId);
+    //this.props.deletepollId;
+    console.log('clicked yes button');
+    let requestConfig = {
+      method: "DELETE",
+      body: JSON.stringify({
+        id: this.props.deletePollId
+      }),
+      headers: { "Content-type":"application/json" }
+    }
+
+    fetch(`/polls/${this.props.deletePollId}`, requestConfig)
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res.status);
+      })
+
   }
 
   render(){
