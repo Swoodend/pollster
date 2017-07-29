@@ -16,6 +16,7 @@ class DashboardWithPolls extends Component {
 
     this.displayModal = this.displayModal.bind(this);
     this.removeModal = this.removeModal.bind(this);
+    this.pollDeleted = this.pollDeleted.bind(this);
   }
 
   componentWillMount(){
@@ -89,13 +90,11 @@ class DashboardWithPolls extends Component {
   }
 
   displayModal(pollTitle, pollId){
-    console.log('DISPLAY MODAL CALLED WITH POLLID', pollId);
+
     this.setState({
       displayingModal : pollTitle,
       deletePollId: pollId
-    }, () => {
-      console.log('now displaying modal', this.state.displayingModal);
-    })
+    });
   }
 
   removeModal(){
@@ -107,12 +106,40 @@ class DashboardWithPolls extends Component {
     )
   }
 
+  pollDeleted(id){
+    //this method runs after a poll is deleted.
+    //it removes deleted poll Obj from this component's state
+    let newPollArray = this.removeTarget(this.state.userPolls.polls, id);
+    let newUserPolls = {
+      polls: newPollArray,
+      status: "OK"
+    }
+    this.setState(
+      {
+        displayingModal: false,
+        deletePollId: null,
+        userPolls: newUserPolls
+      }
+    )
+  }
+
+  removeTarget(pollArr, id){
+    for(let i = 0; i < pollArr.length; i++){
+      if (pollArr[i].id === id){
+        pollArr.splice(i, 1);
+      }
+    }
+    return pollArr;
+  }
+
   render(){
-    console.log('render called');
     let userPolls = this.state.userPolls.polls || [];
     let modal = this.state.displayingModal ?
-      <DeletePollModal deletePollId={this.state.deletePollId} removeModal={this.removeModal}
-      pollTitle={this.state.displayingModal}
+      <DeletePollModal
+        deletePollId={this.state.deletePollId}
+        pollDeleted={this.pollDeleted}
+        pollTitle={this.state.displayingModal}
+        removeModal={this.removeModal}
       /> : null
     let pollData = userPolls.map((pollObj, index) => {
     let totalVotes = pollObj.votes.reduce((a, b) => {return a + b;});
