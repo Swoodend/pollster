@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import RandomPollButton from './RandomPollButton';
 
 
 class DashboardNoPolls extends Component {
+
+
 
   render(){
     let currentUser = localStorage.getItem("currentUser");
@@ -14,9 +17,7 @@ class DashboardNoPolls extends Component {
           </h1>
           <div className="action-container">
             <div className="new-poll div-anchor"><Link to="/new">New Poll</Link></div>
-            <div style={{"background": "#C1D42F"}} className="random-poll div-anchor">
-              <Link to="#">Random</Link>
-            </div>
+            <RandomPollButton />
           </div>
         </div>
       </div>
