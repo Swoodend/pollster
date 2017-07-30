@@ -5,6 +5,7 @@ import DeletePollButton from './DeletePollButton';
 import DeletePollModal from './DeletePollModal';
 import PollItemNoModal from './PollItemNoModal';
 import PollItemModal from'./PollItemModal';
+import PollStatsArea from './PollStatsArea';
 
 class DashboardWithPolls extends Component {
 
@@ -13,7 +14,9 @@ class DashboardWithPolls extends Component {
     this.state = {
       userPolls: '',
       displayingModal: false,
-      deletePollId: null
+      deletePollId: null,
+      totalVotes: 0,
+      mostPopularPoll: null
     }
 
     this.displayModal = this.displayModal.bind(this);
@@ -22,10 +25,10 @@ class DashboardWithPolls extends Component {
   }
 
   componentWillMount(){
-    this.getRandomPolls();
+    this.getAllPolls();
   }
 
-  getRandomPolls(){
+  getAllPolls(){
     let currentUser = localStorage.getItem('currentUser');
     let requestConfig = {
       method: "GET",
@@ -37,7 +40,9 @@ class DashboardWithPolls extends Component {
       })
       .then((pollData) => {
         this.setState({
-          userPolls: pollData
+          userPolls: pollData,
+          totalVotes: pollData.totalVotes,
+          mostPopularPoll: pollData.mostPopularPoll
         }, () => {
           this.displayPollData(pollData);
         })
@@ -51,44 +56,43 @@ class DashboardWithPolls extends Component {
 
   displayPollData(pd){
     let pollData = pd.polls;
-    let randomPoll = pollData[Math.floor(Math.random() * pollData.length)]
-    console.log(randomPoll);
-    console.log(randomPoll.votes)
-    let ctx = document.getElementById('chart').getContext('2d');
-    let poll = new Chart(ctx, {
-      type: 'bar',
-      data : {
-        labels: randomPoll.options,
-        datasets: [{
-          data: randomPoll.votes,
-          backgroundColor: [
-            'deepskyblue',
-            '#FCB723',
-            'orange',
-            'rebeccapurple'
-          ],
-          borderColor: [
-            'black',
-            'black'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          display: false
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    })
+    console.log('in dpd', pollData);
+    // let randomPoll = pollData[Math.floor(Math.random() * pollData.length)]
+    // let ctx = document.getElementById('chart').getContext('2d');
+    // let poll = new Chart(ctx, {
+    //   type: 'bar',
+    //   data : {
+    //     labels: randomPoll.options,
+    //     datasets: [{
+    //       data: randomPoll.votes,
+    //       backgroundColor: [
+    //         'deepskyblue',
+    //         '#FCB723',
+    //         'orange',
+    //         'rebeccapurple'
+    //       ],
+    //       borderColor: [
+    //         'black',
+    //         'black'
+    //       ],
+    //       borderWidth: 1
+    //     }]
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     legend: {
+    //       display: false
+    //     },
+    //     scales: {
+    //       yAxes: [{
+    //         ticks: {
+    //           beginAtZero: true
+    //         }
+    //       }]
+    //     }
+    //   }
+    // })
   }
 
   displayModal(pollTitle, pollId){
@@ -179,9 +183,7 @@ class DashboardWithPolls extends Component {
           {pollData}
           {modal}
         </div>
-        <div style={{position: "relative", height: "75vh", width:"75vw", display:"flex", float:"right"}}>
-          <canvas id="chart"></canvas>
-        </div>
+        <PollStatsArea/>
       </div>
     );
   }
