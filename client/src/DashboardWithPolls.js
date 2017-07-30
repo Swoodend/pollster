@@ -3,6 +3,8 @@ import Chart from 'chart.js';
 import { Link } from 'react-router-dom';
 import DeletePollButton from './DeletePollButton';
 import DeletePollModal from './DeletePollModal';
+import PollItemNoModal from './PollItemNoModal';
+import PollItemModal from'./PollItemModal';
 
 class DashboardWithPolls extends Component {
 
@@ -145,30 +147,25 @@ class DashboardWithPolls extends Component {
     let totalVotes = pollObj.votes.reduce((a, b) => {return a + b;});
       if (!modal){
         return (
-          <div key={index} style={{position:"relative"}}>
-            <Link to={`/polls/${pollObj.id}`}>
-              <div className="poll-item div-anchor">
-                <div className="poll-title">{pollObj.title}</div>
-                <div className="poll-votes">Total votes: {totalVotes}</div>
-              </div>
-            </Link>
-            <DeletePollButton pollId={pollObj.id} pollTitle={pollObj.title} setModalState={this.displayModal}/>
-          </div>
+          <PollItemNoModal
+            key={index}
+            id={pollObj.id}
+            title={pollObj.title}
+            totalVotes={totalVotes}
+            displayModal={this.displayModal}
+          />
         )
       } else {
         return (
-          <div key={index}>
-            <DeletePollModal deletePollId={this.state.deletePollId} pollTitle={this.state.displayingModal}/>
-            <div key={index} style={{position:"relative"}}>
-              <Link to={`/polls/${pollObj.id}`}>
-                <div className="poll-item div-anchor">
-                  <div className="poll-title">{pollObj.title}</div>
-                  <div className="poll-votes">Total votes: {totalVotes}</div>
-                </div>
-              </Link>
-              <DeletePollButton pollId={pollObj.id} pollTitle={pollObj.title} setModalState={this.displayModal}/>
-            </div>
-          </div>
+          <PollItemModal
+            key={index}
+            deletePollId={this.state.deletePollId}
+            pollTitle={this.state.displayingModal}
+            id={pollObj.id}
+            title={pollObj.title}
+            totalVotes={totalVotes}
+            displayModal={this.displayModal}
+          />
         )
       }
 
