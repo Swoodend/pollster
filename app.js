@@ -148,6 +148,30 @@ app.post('/login', (req, res) => {
   });
 });
 
+app.get('/polls/random', (req, res) =>{
+  Poll.count((err, count) => {
+    if(count > 0){
+      let randIndex = Math.floor(Math.random() * count);
+      console.log('in polls/random');
+      Poll.findOne().skip(randIndex).exec((err, doc) => {
+        console.log('in skip block doc is', doc);
+        res.json (
+          {
+            status: 'OK',
+            id: doc.id
+          }
+        )
+      })
+    } else {
+      res.json(
+        {
+          status: 'null'
+        }
+      )
+    }
+  })
+})
+
 app.get('/polls/:pollId', (req, res) => {
   Poll.find({id: req.params.pollId}, (err, poll) => {
     if (err) console.log('err in /polls/:pollId', err);
