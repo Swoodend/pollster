@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FlashMessage from './FlashMessage';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -102,8 +103,14 @@ class Login extends Component {
     };
     let error = this.state.error ?
       <FlashMessage type={this.state.error.type} message={this.state.error.message}/> : null;
+
+    let alreadyLoggedIn = localStorage.getItem('currentUser');
+    let redirectIfLoggedIn = alreadyLoggedIn ? <Redirect to={{pathname:"/dashboard"}}/> : null
+
+
     return (
       <div>
+        {redirectIfLoggedIn}
         <ReactCSSTransitionGroup transitionName={"flash"} transitionEnterTimeout={0} transitionLeaveTimeout={1000}>
           {error}
         </ReactCSSTransitionGroup>
