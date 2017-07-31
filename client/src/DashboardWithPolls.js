@@ -183,7 +183,7 @@ class DashboardWithPolls extends Component {
           {pollData}
           {modal}
         </div>
-        <PollStatsArea/>
+        <PollStatsArea totalVotes={this.state.totalVotes} mostPopularPoll={this.state.mostPopularPoll}/>
       </div>
     );
   }

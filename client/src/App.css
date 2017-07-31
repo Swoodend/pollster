@@ -559,3 +559,23 @@ body {
 #last-input {
   margin-left: 18px!important;
 }
+
+.poll-stats-container {
+  background: red;
+  position: relative;
+  display: flex;
+  min-height: 75vh;
+  width: 75vw;
+  display: flex;
+  float: right;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.poll-stats-subcontainer {
+  background: blue;
+  height: 400px;
+  width: 400px;
+  margin: 50px;
+}

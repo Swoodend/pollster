@@ -3,7 +3,16 @@ import React, { Component } from 'react';
 export default class PollStatsArea extends Component {
   render(){
     return (
-      <div style={{background:"red", position: "relative", height: "75vh", width:"75vw", display:"flex", float:"right"}}></div>
+      <div className="poll-stats-container">
+        <div className="poll-stats-subcontainer">
+
+        </div>
+
+        <div className="poll-stats-subcontainer">
+
+        </div>
+
+      </div>
     )
   }
 }
