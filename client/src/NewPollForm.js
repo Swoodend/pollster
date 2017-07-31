@@ -88,7 +88,7 @@ class NewPollForm extends Component {
         if (index === arr.length -1){
           return  (
             <div style={{"position":"relative"}} key={index}>
-              <input onChange={this.handleChange} name={`input${index}`} placeholder="Add an option" style={styles.inputStyle}/>
+              <input id="last-input" onChange={this.handleChange} name={`input${index}`} placeholder={`option ${index + 1}`} style={styles.inputStyle}/>
               <div className="green poll-option-button"onClick={this.handleClick}>+</div>
               <div className="red poll-option-button">-</div>
             </div>
@@ -96,7 +96,7 @@ class NewPollForm extends Component {
         } else {
           return (
             <div style={{"position":"relative"}} key={index}>
-              <input onChange={this.handleChange} name={`input${index}`} placeholder="Add an option" style={styles.inputStyle}/>
+              <input onChange={this.handleChange} name={`input${index}`} placeholder={`option ${index + 1}`} style={styles.inputStyle}/>
             </div>
           )
         }

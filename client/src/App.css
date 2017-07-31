@@ -551,3 +551,7 @@ body {
   background: #00ff99;
   line-height: 15px;
 }
+
+#last-input {
+  margin-left: 18px!important;
+}
