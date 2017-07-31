@@ -539,6 +539,10 @@ body {
   text-align: center;
 }
 
+.poll-option-button:hover {
+  cursor: pointer;
+}
+
 .red {
   background: #f45c42;
   line-height: 12px;
