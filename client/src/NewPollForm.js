@@ -7,6 +7,7 @@ class NewPollForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.removePollOption = this.removePollOption.bind(this);
     this.state = {
       pollOptionInputs :['input0'],
       inputValues : {}
@@ -51,16 +52,30 @@ class NewPollForm extends Component {
   }
 
   handleChange(e){
-    console.log('current val is', e.target.value);
     let newInputVal =  this.state.inputValues;
     newInputVal[e.target.name] = e.target.value;
     this.setState(
       {
         inputValues: newInputVal
-      }, () => {
-        console.log('new state is', this.state)
       }
     )
+  }
+
+  removePollOption(e){
+    let newOptions = this.state.pollOptionInputs.slice();
+
+    if (newOptions.length >= 2){
+      //only remove option if there will be at least one left
+      newOptions.pop();
+
+      let newOptionValues = this.state.inputValues;
+      delete newOptionValues[e.target.id];
+
+      this.setState({
+        pollOptionInputs: newOptions,
+        inputValues: newOptionValues
+      });
+    }
   }
 
   render(){
@@ -89,8 +104,8 @@ class NewPollForm extends Component {
           return  (
             <div style={{"position":"relative"}} key={index}>
               <input id="last-input" onChange={this.handleChange} name={`input${index}`} placeholder={`option ${index + 1}`} style={styles.inputStyle}/>
-              <div className="green poll-option-button"onClick={this.handleClick}>+</div>
-              <div className="red poll-option-button">-</div>
+              <div className="green poll-option-button" onClick={this.handleClick}>+</div>
+              <div className="red poll-option-button" id={`input${index}`} onClick={this.removePollOption}>-</div>
             </div>
           )
         } else {
