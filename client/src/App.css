@@ -135,7 +135,6 @@ body {
 .sec-username {
   background: #f45c42;
 }
-
 .sec-polls {
   background: #C1D42F;
 }
@@ -530,4 +529,25 @@ body {
   height: 30px;
   text-align: center;
   line-height: 30px;
+}
+
+.poll-option-button {
+  height: 15px;
+  width: 15px;
+  color: white;
+  display: inline-block;
+  text-align: center;
+}
+
+.red {
+  background: #f45c42;
+  line-height: 12px;
+  position: absolute;
+  top: 1px;
+
+}
+
+.green {
+  background: #00ff99;
+  line-height: 15px;
 }

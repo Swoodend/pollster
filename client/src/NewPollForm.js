@@ -87,14 +87,15 @@ class NewPollForm extends Component {
     let optionInputs = this.state.pollOptionInputs.map((input, index, arr) => {
         if (index === arr.length -1){
           return  (
-            <div key={index}>
+            <div style={{"position":"relative"}} key={index}>
               <input onChange={this.handleChange} name={`input${index}`} placeholder="Add an option" style={styles.inputStyle}/>
-              <button onClick={this.handleClick}>Add option</button>
+              <div className="green poll-option-button"onClick={this.handleClick}>+</div>
+              <div className="red poll-option-button">-</div>
             </div>
           )
         } else {
           return (
-            <div key={index}>
+            <div style={{"position":"relative"}} key={index}>
               <input onChange={this.handleChange} name={`input${index}`} placeholder="Add an option" style={styles.inputStyle}/>
             </div>
           )
