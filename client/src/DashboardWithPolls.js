@@ -139,7 +139,9 @@ class DashboardWithPolls extends Component {
   }
 
   render(){
+
     let userPolls = this.state.userPolls.polls || [];
+    let totalPolls = userPolls ? userPolls.length : 0;
     let modal = this.state.displayingModal ?
       <DeletePollModal
         deletePollId={this.state.deletePollId}
@@ -182,6 +184,8 @@ class DashboardWithPolls extends Component {
           <h3 style={{textAlign: "center"}}>My Polls</h3>
           {pollData}
           {modal}
+          <hr/>
+          <p style={{"paddingLeft":"15px"}}>Total polls: {totalPolls}</p>
         </div>
         <PollStatsArea totalVotes={this.state.totalVotes} mostPopularPoll={this.state.mostPopularPoll}/>
       </div>
