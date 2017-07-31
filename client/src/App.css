@@ -353,11 +353,11 @@ body {
 
 .new-poll-box {
   width: 25%;
-  height: 40%;
   min-width: 315px;
-  min-height: 300px;
+  min-height: 250px;
   border: 2px solid black;
   border-radius: 5px;
+  padding-bottom: 25px;
 }
 
 /* view poll page */
