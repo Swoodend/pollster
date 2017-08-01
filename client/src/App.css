@@ -424,9 +424,10 @@ body {
 /*dashboard left nav*/
 
 .left-nav-polls {
-  height: 73vh;
   width: 20vw;
   position: relative;
+  background: ivory;
+  padding-bottom: 55px;
 }
 
 .poll-item {
@@ -435,7 +436,7 @@ body {
   justify-content: center;
   min-height: 125px;
   width: 100%;
-  background: linear-gradient(to right, deepskyblue 50%, white 50%);
+  background: linear-gradient(to right, #e6f777 50%, ivory 50%);
   background-size: 200% 100%;
   background-position: right bottom;
   overflow-y: auto;
@@ -562,9 +563,9 @@ body {
 }
 
 .poll-stats-container {
+  height: calc(100vh - 50px);
   position: relative;
   display: flex;
-  min-height: 75vh;
   width: 75vw;
   display: flex;
   flex-wrap: wrap;
@@ -573,13 +574,21 @@ body {
 }
 
 .poll-stats-subcontainer {
-  border: 4px solid green;
+  border: 1px solid black;
   min-height: 467px;
   width: 400px;
   margin: 50px;
   text-align: center;
+  font-family: "Asap", Arial;
 }
 
 .main-dash-container {
   display: flex;
+}
+
+
+#big-num {
+  font-size: 125px;
+  word-wrap: break-word;
+  color: #fcb723;
 }
