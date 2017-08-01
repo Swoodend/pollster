@@ -184,7 +184,7 @@ class DashboardWithPolls extends Component {
           {pollData}
           {modal}
           <hr/>
-          <p style={{"paddingLeft":"15px"}}>Total polls: {totalPolls}</p>
+          <p style={{"paddingLeft":"15px", "font-size":"16px", "font-family":"Asap, Arial"}}>Total polls: {totalPolls}</p>
         </div>
         <PollStatsArea totalVotes={this.state.totalVotes} mostPopularPoll={this.state.mostPopularPoll}/>
       </div>
