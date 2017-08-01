@@ -178,10 +178,9 @@ class DashboardWithPolls extends Component {
     })
 
     return (
-      <div>
-        <h1 style={{textAlign: "center"}}>A random poll you own</h1>
+      <div className="main-dash-container">
         <div className="left-nav-polls">
-          <h3 style={{textAlign: "center"}}>My Polls</h3>
+          <h3 style={{textAlign: "center", fontFamily:"Patua One"}}>My Polls</h3>
           {pollData}
           {modal}
           <hr/>
