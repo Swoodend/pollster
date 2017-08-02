@@ -25,6 +25,7 @@ class DashboardWithPolls extends Component {
   }
 
   getAllPolls(){
+    console.log('gap claled');
     let currentUser = localStorage.getItem('currentUser');
     let requestConfig = {
       method: "GET",
@@ -35,6 +36,7 @@ class DashboardWithPolls extends Component {
         return res.json();
       })
       .then((pollData) => {
+        console.log('pd is', pollData)
         this.setState({
           userPolls: pollData,
           totalVotes: pollData.totalVotes,
@@ -57,11 +59,11 @@ class DashboardWithPolls extends Component {
       polls: newPollArray,
       status: "OK"
     }
-    this.setState(
-      {
-        userPolls: newUserPolls
-      }
-    )
+
+    this.getAllPolls();
+    if (this.state.userPolls.polls.length === 0){
+      window.location.replace('/dashboard');
+    }
   }
 
   removeTarget(pollArr, id){
@@ -91,7 +93,7 @@ class DashboardWithPolls extends Component {
           pollDeleted={this.pollDeleted}
         />
       )
-    })
+    });
 
     return (
       <div className="main-dash-container">
@@ -99,7 +101,7 @@ class DashboardWithPolls extends Component {
           <h3 style={{textAlign: "center", fontFamily:"Patua One"}}>My Polls</h3>
           {pollData}
           <hr/>
-          <p style={{"paddingLeft":"15px", "fontSize":"1px", "fontFamily":"Asap, Arial"}}>Total polls: {totalPolls}</p>
+          <p style={{"paddingLeft":"15px", "fontSize":"18px", "fontFamily":"Asap, Arial"}}>Total polls: {totalPolls}</p>
         </div>
         <PollStatsArea totalVotes={this.state.totalVotes} mostPopularPoll={this.state.mostPopularPoll}/>
       </div>
