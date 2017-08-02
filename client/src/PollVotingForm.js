@@ -34,7 +34,7 @@ class PollVotingForm extends Component{
     let leaderIndex = this.getPollLeader(this.props.votes);
     let pollLeader = this.props.options[leaderIndex];
     let maxVotes = this.props.votes[leaderIndex];
-    let pluralOrNot = maxVotes > 1 ? "votes" : "vote"
+    let pluralOrNot = maxVotes > 1 || maxVotes === 0 ? "votes" : "vote"
     let tweet = `Hi friends! Come vote on my new poll: ${this.props.title} it looks like ${pollLeader} is winning with ${maxVotes} ${pluralOrNot}!`
     return this.percentEncode(tweet);
   }
