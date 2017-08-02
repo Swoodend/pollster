@@ -78,6 +78,10 @@ app.get("/:user/polls", (req, res) => {
           mostPopularPoll
         }
       );
+    } else {
+      res.json({
+        polls: []
+      })
     }
   })
 });
