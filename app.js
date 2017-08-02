@@ -55,29 +55,31 @@ app.get("/:user/polls", (req, res) => {
     if (err) return console.log('something went wrong in /:user/polls', err);
     console.log('in /user/polls');
     console.log(pollArr);
-    let totalVotes = pollArr.reduce((total, pollObj) => {
-      total += pollObj.votes.reduce((subTotal, nextVal) => {
-        return subTotal + nextVal;
+    if(pollArr.length > 0){
+      let totalVotes = pollArr.reduce((total, pollObj) => {
+        total += pollObj.votes.reduce((subTotal, nextVal) => {
+          return subTotal + nextVal;
+        })
+        return total;
+      }, 0)
+
+      let mostPopularPoll = pollArr.reduce((mostPopular, nextPoll) => {
+        let mostPopVotes = mostPopular.votes.reduce((a, b) => {return a + b;});
+        let nextPollVotes = nextPoll.votes.reduce((a, b) => {return a + b;});
+
+        return mostPopVotes > nextPollVotes ? mostPopular : nextPoll
       })
-      return total;
-    }, 0)
-
-    let mostPopularPoll = pollArr.reduce((mostPopular, nextPoll) => {
-      let mostPopVotes = mostPopular.votes.reduce((a, b) => {return a + b;});
-      let nextPollVotes = nextPoll.votes.reduce((a, b) => {return a + b;});
-
-      return mostPopVotes > nextPollVotes ? mostPopular : nextPoll
-    })
-    console.log('mostpop is', mostPopularPoll)
-    res.json(
-      {
-        status: "OK",
-        polls: pollArr,
-        totalVotes,
-        mostPopularPoll
-      }
-    );
-  });
+      console.log('mostpop is', mostPopularPoll)
+      res.json(
+        {
+          status: "OK",
+          polls: pollArr,
+          totalVotes,
+          mostPopularPoll
+        }
+      );
+    }
+  })
 });
 
 
