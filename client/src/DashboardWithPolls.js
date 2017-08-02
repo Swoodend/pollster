@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import DeletePollButton from './DeletePollButton';
 import DeletePollModal from './DeletePollModal';
 import PollItemNoModal from './PollItemNoModal';
-import PollItemModal from'./PollItemModal';
+import PollItem from './PollItem';
 import PollStatsArea from './PollStatsArea';
 
 class DashboardWithPolls extends Component {
@@ -13,14 +13,10 @@ class DashboardWithPolls extends Component {
     super(props);
     this.state = {
       userPolls: '',
-      displayingModal: false,
-      deletePollId: null,
       totalVotes: 0,
       mostPopularPoll: null
     }
 
-    this.displayModal = this.displayModal.bind(this);
-    this.removeModal = this.removeModal.bind(this);
     this.pollDeleted = this.pollDeleted.bind(this);
   }
 
@@ -43,8 +39,6 @@ class DashboardWithPolls extends Component {
           userPolls: pollData,
           totalVotes: pollData.totalVotes,
           mostPopularPoll: pollData.mostPopularPoll
-        }, () => {
-          this.displayPollData(pollData);
         })
       })
       .catch((err) => {
@@ -54,63 +48,6 @@ class DashboardWithPolls extends Component {
       })
   }
 
-  displayPollData(pd){
-    let pollData = pd.polls;
-    console.log('in dpd', pollData);
-    // let randomPoll = pollData[Math.floor(Math.random() * pollData.length)]
-    // let ctx = document.getElementById('chart').getContext('2d');
-    // let poll = new Chart(ctx, {
-    //   type: 'bar',
-    //   data : {
-    //     labels: randomPoll.options,
-    //     datasets: [{
-    //       data: randomPoll.votes,
-    //       backgroundColor: [
-    //         'deepskyblue',
-    //         '#FCB723',
-    //         'orange',
-    //         'rebeccapurple'
-    //       ],
-    //       borderColor: [
-    //         'black',
-    //         'black'
-    //       ],
-    //       borderWidth: 1
-    //     }]
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     maintainAspectRatio: false,
-    //     legend: {
-    //       display: false
-    //     },
-    //     scales: {
-    //       yAxes: [{
-    //         ticks: {
-    //           beginAtZero: true
-    //         }
-    //       }]
-    //     }
-    //   }
-    // })
-  }
-
-  displayModal(pollTitle, pollId){
-
-    this.setState({
-      displayingModal : pollTitle,
-      deletePollId: pollId
-    });
-  }
-
-  removeModal(){
-    this.setState(
-      {
-        displayingModal: false,
-        deletePollId: null
-      }
-    )
-  }
 
   pollDeleted(id){
     //this method runs after a poll is deleted.
@@ -122,8 +59,6 @@ class DashboardWithPolls extends Component {
     }
     this.setState(
       {
-        displayingModal: false,
-        deletePollId: null,
         userPolls: newUserPolls
       }
     )
@@ -142,39 +77,20 @@ class DashboardWithPolls extends Component {
 
     let userPolls = this.state.userPolls.polls || [];
     let totalPolls = userPolls ? userPolls.length : 0;
-    let modal = this.state.displayingModal ?
-      <DeletePollModal
-        deletePollId={this.state.deletePollId}
-        pollDeleted={this.pollDeleted}
-        pollTitle={this.state.displayingModal}
-        removeModal={this.removeModal}
-      /> : null
+
     let pollData = userPolls.map((pollObj, index) => {
     let totalVotes = pollObj.votes.reduce((a, b) => {return a + b;});
-      if (!modal){
-        return (
-          <PollItemNoModal
-            key={index}
-            id={pollObj.id}
-            title={pollObj.title}
-            totalVotes={totalVotes}
-            displayModal={this.displayModal}
-          />
-        )
-      } else {
-        return (
-          <PollItemModal
-            key={index}
-            deletePollId={this.state.deletePollId}
-            pollTitle={this.state.displayingModal}
-            id={pollObj.id}
-            title={pollObj.title}
-            totalVotes={totalVotes}
-            displayModal={this.displayModal}
-          />
-        )
-      }
 
+      return (
+        <PollItem
+          key={index}
+          id={pollObj.id}
+          title={pollObj.title}
+          totalVotes={totalVotes}
+          displayModal={this.displayModal}
+          pollDeleted={this.pollDeleted}
+        />
+      )
     })
 
     return (
@@ -182,9 +98,8 @@ class DashboardWithPolls extends Component {
         <div className="left-nav-polls">
           <h3 style={{textAlign: "center", fontFamily:"Patua One"}}>My Polls</h3>
           {pollData}
-          {modal}
           <hr/>
-          <p style={{"paddingLeft":"15px", "font-size":"16px", "font-family":"Asap, Arial"}}>Total polls: {totalPolls}</p>
+          <p style={{"paddingLeft":"15px", "fontSize":"1px", "fontFamily":"Asap, Arial"}}>Total polls: {totalPolls}</p>
         </div>
         <PollStatsArea totalVotes={this.state.totalVotes} mostPopularPoll={this.state.mostPopularPoll}/>
       </div>
