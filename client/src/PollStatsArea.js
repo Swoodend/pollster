@@ -58,7 +58,7 @@ export default class PollStatsArea extends Component {
         <div className="poll-stats-subcontainer">
           <h2>Total Votes Across All Polls</h2>
           <div className="numeral-container">
-            <p id="big-num">{this.props.totalVotes || null}</p>
+            <p id="big-num">{this.props.totalVotes || 0}</p>
           </div>
         </div>
 
