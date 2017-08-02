@@ -9,7 +9,8 @@ export default class DeletePollModal extends Component {
   }
 
   handleNoClicked(){
-    this.props.removeModal();
+    console.log('no clicked in delete poll modal');
+    this.props.switchModal();
   }
 
   handleYesClicked(){
@@ -28,7 +29,8 @@ export default class DeletePollModal extends Component {
       })
       .then((res) => {
         if (res.status === 'deleted'){
-          this.props.pollDeleted(this.props.deletePollId)
+          //re-render the pollitem component
+          this.props.deletePollItem();
         }
       })
 
@@ -36,9 +38,9 @@ export default class DeletePollModal extends Component {
 
   render(){
     return (
-      <div className="modal">
+      <div>
         <h5>Are you sure you want to delete the poll: {this.props.pollTitle}?</h5>
-        <div className="btn-wrapper">
+        <div>
           <div onClick={this.handleYesClicked} className="yes-btn">
             YES
           </div>
