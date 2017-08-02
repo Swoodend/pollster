@@ -592,3 +592,7 @@ body {
   word-wrap: break-word;
   color: #fcb723;
 }
+
+.pad-left {
+  padding-left: 15px;
+}
