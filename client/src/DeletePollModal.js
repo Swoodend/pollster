@@ -39,8 +39,8 @@ export default class DeletePollModal extends Component {
   render(){
     return (
       <div>
-        <h5>Are you sure you want to delete the poll: {this.props.pollTitle}?</h5>
-        <div>
+        <h5 style={{"textAlign":"center", "fontFamily":"Asap, Arial"}}>Are you <span style={{"color":"red"}}>sure</span> you want to delete the poll: {this.props.pollTitle}?</h5>
+        <div className="yes-no-container">
           <div onClick={this.handleYesClicked} className="yes-btn">
             YES
           </div>
