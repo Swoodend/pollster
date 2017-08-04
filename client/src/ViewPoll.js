@@ -16,8 +16,20 @@ class ViewPoll extends Component {
       pollAuthor: '',
       pollOptions: '',
       pollVotes: '',
-      error: null
+      error: null,
+      pollLeader: '',
+      pollLeaderVotes: 0
+
     }
+  }
+
+  getPollLeader(arr){
+    //returns index of largest number in array;
+
+    let largest = arr.reduce((acc, num) => {
+      return acc > num ? acc : num;
+    })
+    return arr.indexOf(largest);
   }
 
   componentDidMount(){
@@ -28,12 +40,19 @@ class ViewPoll extends Component {
       })
       .then((res) => {
         if (res.status === "OK"){
+          //get poll leader and # of votes they have
+          let leaderIndex= this.getPollLeader(res.pollData.votes);
+          let pollLeader = res.pollData.options[leaderIndex];
+          let pollLeaderVotes = res.pollData.votes[leaderIndex];
+
           this.setState({
             id: res.pollData.id,
             pollTitle: res.pollData.title,
             pollAuthor: res.pollData.author,
             pollOptions: res.pollData.options,
-            pollVotes: res.pollData.votes
+            pollVotes: res.pollData.votes,
+            pollLeader,
+            pollLeaderVotes
           }, () => {
             let ctx = document.getElementById('chart').getContext('2d');
             poll = new Chart(ctx, {
@@ -78,56 +97,72 @@ class ViewPoll extends Component {
   }
 
   updateChart(index){
-    let pollId = this.props.match.params.pollId;
 
-    let requestConfig = {
-      method: "POST",
-      headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({
-        index
-      })
-    };
+    return new Promise((resolve, reject) => {
+      let pollId = this.props.match.params.pollId;
 
-    fetch(`/polls/update/${pollId}`, requestConfig)
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        if (res.status === "OK"){
-          //you sucessfully voted
-          let updatedVotes = res.updatedVotes;
-          this.setState({
-            pollVotes: updatedVotes
-          }, () => {
-            poll.data.datasets[0].data = this.state.pollVotes;
-            poll.update();
-          });
-        } else {
-          if (res.status === "Already voted"){
-            let errorType = res.status;
-            let errorMessage = "Sorry, but we have already received a vote from this machine. Your vote was not recorded."
-            this.setState(
-              {
-                error: {
-                  type: errorType,
-                  message: errorMessage
-                }
-              }, () => {
-                window.setTimeout(() => {
-                  this.setState(
-                    {
-                      error : null
-                    }
-                  )
-                }, 3000);
-              }
-            )
+
+      let requestConfig = {
+        method: "POST",
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({
+          index
+        })
+      };
+
+      fetch(`/polls/update/${pollId}`, requestConfig)
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.status === "OK"){
+            //you sucessfully voted
+            let updatedVotes = res.updatedVotes;
+            let leaderIndex= this.getPollLeader(updatedVotes);
+            let pollLeader = this.state.pollOptions[leaderIndex];
+            let pollLeaderVotes = updatedVotes[leaderIndex];
+
+
+            this.setState({
+              pollVotes: updatedVotes,
+              pollLeader,
+              pollLeaderVotes
+
+            }, () => {
+              poll.data.datasets[0].data = this.state.pollVotes;
+              poll.update();
+              resolve();
+
+            });
           } else {
-            console.log('something VERY strange has occured');
+            if (res.status === "Already voted"){
+              let errorType = res.status;
+              let errorMessage = "Sorry, but we have already received a vote from this machine. Your vote was not recorded."
+              this.setState(
+                {
+                  error: {
+                    type: errorType,
+                    message: errorMessage
+                  }
+                }, () => {
+                  resolve();
+                  window.setTimeout(() => {
+                    this.setState(
+                      {
+                        error : null
+                      }
+                    )
+                  }, 3000);
+                }
+              )
+            } else {
+              console.log('something VERY strange has occured');
+              reject();
+            }
           }
-        }
-      });
-  }
+        }); //end of code
+    }) //end of promise
+  } //end of fn
 
   render(){
     let error = this.state.error ?
@@ -140,6 +175,8 @@ class ViewPoll extends Component {
         title={this.state.pollTitle}
         votes={this.state.pollVotes}
         id={this.state.id}
+        pollLeader={this.state.pollLeader}
+        pollLeaderVotes={this.state.pollLeaderVotes}
       /> : null
     return (
       <div>
