@@ -11,17 +11,28 @@ class PollVotingForm extends Component{
   }
 
   componentDidMount(){
-    try{
-      window.twttr.widgets.load(document.getElementById('tb'));
-
-    } catch(e){
-      console.log(e);
-    }
+    window.twttr.widgets.load();
   }
+
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.updateChart(this.state.voteValue);
+    this.props.updateChart(this.state.voteValue)
+      .then(() => {
+        let btnContainer = document.getElementById("tbc");
+        let btn = document.getElementById("twitter-widget-0");
+        btnContainer.removeChild(btn);
+        let tweetMessage = this.composeTweetMessage();
+        let anchor = document.createElement('a');
+        anchor.setAttribute('class', 'tweet-btn');
+        anchor.setAttribute('class', 'twitter-share-button');
+        anchor.setAttribute('href', "https://twitter.com/intent/tweet?text=" + tweetMessage);
+        anchor.setAttribute('data-size', 'large');
+        anchor.innerHTML = "Tweet"
+        document.getElementById("tbc").appendChild(anchor);
+        window.twttr.widgets.load();
+      })
+
   }
 
   handleChange(e){
@@ -31,26 +42,18 @@ class PollVotingForm extends Component{
   }
 
   composeTweetMessage(){
-    let leaderIndex = this.getPollLeader(this.props.votes);
-    let pollLeader = this.props.options[leaderIndex];
-    let maxVotes = this.props.votes[leaderIndex];
-    let pluralOrNot = maxVotes > 1 || maxVotes === 0 ? "votes" : "vote"
-    let tweet = `Hi friends! Come vote on my new poll: ${this.props.title} it looks like ${pollLeader} is winning with ${maxVotes} ${pluralOrNot}!`
+    let pluralOrNot = this.props.pollLeaderVotes > 1 || this.props.pollLeaderVotes === 0 ? "votes" : "vote"
+    let tweet = `Hi friends! Come vote on my new poll: ${this.props.title} it looks like ${this.props.pollLeader} is winning with ${this.props.pollLeaderVotes} ${pluralOrNot}!`
     return this.percentEncode(tweet);
   }
 
-  getPollLeader(arr){
-    //returns index of largest number in array;
-    let largest = arr.reduce((acc, num) => {
-      return acc > num ? acc : num;
-    })
-    return arr.indexOf(largest);
-  }
+
 
   percentEncode(str){
     str = str.replace(/\s/g, '%20');
     return str.replace(/[!?]/g, '%21');
   }
+
 
   render(){
     let options = this.props.options.map((option, i) => {
@@ -70,15 +73,17 @@ class PollVotingForm extends Component{
           <form style={{textAlign:"center"}} onSubmit={this.handleSubmit}>
             {options}
             <input id="vote-button" type="submit" value="VOTE!"/>
-            <a
-            id="tb"
-            className="tweet-btn twitter-share-button"
-            href={"https://twitter.com/intent/tweet?text=" + tweetMessage}
-            data-size="large"
-            data-url={"http://localhost:3000/polls/" + this.props.id}
-            >
-              Tweet
-            </a>
+            <div id="tbc">
+              <a
+              id="tb"
+              className="tweet-btn twitter-share-button"
+              href={"https://twitter.com/intent/tweet?text=" + tweetMessage}
+              data-size="large"
+              data-url={"http://localhost:3000/polls/" + this.props.id}
+              >
+                Tweet
+              </a>
+            </div>
           </form>
         </div>
       </div>
