@@ -9,7 +9,6 @@ export default class DeletePollModal extends Component {
   }
 
   handleNoClicked(){
-    console.log('no clicked in delete poll modal');
     this.props.switchModal();
   }
 
