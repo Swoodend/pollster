@@ -10,7 +10,6 @@ export default class RandomPollButton extends Component {
 
 
   getRandomPoll(){
-    console.log('clicked the btn');
 
     fetch('/polls/random')
       .then((res) => {
