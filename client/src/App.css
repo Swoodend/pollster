@@ -9,6 +9,27 @@
   }
 }
 
+@media screen and (max-width: 900px){
+  .main-dash-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .left-nav-polls {
+    width: 100% !important;
+    text-align: center;
+    padding-bottom: 0px !important;
+  }
+
+  .poll-stats-container{
+    width: 100% !important;
+  }
+
+  .poll-stats-subcontainer {
+    margin: 15px auto !important;
+  }
+}
+
 a {
   text-decoration: none;
   color: inherit;
