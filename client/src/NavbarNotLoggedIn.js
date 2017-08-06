@@ -1,31 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import NavbarLoggedOutRegular from './NavbarLoggedOutRegular';
+import NavbarLoggedOutMobile from './NavbarLoggedOutMobile';
 
 class NavbarNotLoggedIn extends Component {
   render(){
     return (
       <div>
-        <div className="navbar">
-          <div className="left">
-            <div className="nav-title"><Link to="/">Pollster</Link></div>
-          </div>
-          <div className="right">
-            <div className="login"><div className="overlay"><Link to="/login" className="div-anchor">Login</Link></div></div>
-            <div className="signup"><div className="overlay"><Link to="/signup" className="div-anchor">Sign up</Link></div></div>
-          </div>
-        </div>
-
-        <div className="secondary-nav">
-          <div className="sec-left">
-            <div className="sec-nav-title"><Link to="/">Pollster</Link></div>
-          </div>
-          <div className="sec-right"> Options <i className="fa fa-caret-down" aria-hidden="true"></i>
-            <div className="sec-right-menu">
-              <div className="sec-polls"><div className="overlay"><Link to="/login"><div className="div-anchor">Login</div></Link></div></div>
-              <div className="sec-nav-new-poll"><div className="overlay"><Link to="/signup"><div className="div-anchor">Sign up</div></Link></div></div>
-            </div>
-          </div>
-        </div>
+        <NavbarLoggedOutRegular/>
+        <NavbarLoggedOutMobile/>
       </div>
     )
   }
